@@ -1,2 +1,2 @@
 # FuriousGenius
-Finite Group study in C++
+Finite Groups study in C++
