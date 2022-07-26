@@ -1,2 +1,2 @@
 # FuriousGenius
-Finite Groups study in C++
+Finite Groups study in Julia
