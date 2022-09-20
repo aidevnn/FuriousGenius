@@ -1,5 +1,6 @@
 module FuriousGenius
 
-greet() = print("Hello World!")
+include("GroupTheory.jl")
+include("Zn.jl")
 
 end # module

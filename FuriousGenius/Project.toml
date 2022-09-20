@@ -2,3 +2,12 @@ name = "FuriousGenius"
 uuid = "ebf584b5-9662-48ec-8748-0820853ea9fa"
 authors = ["aidevnn <ilyas.kadassi@gmail.com>"]
 version = "0.1.0"
+
+[deps]
+Exceptions = "25a0344a-2aab-46d0-b534-6f1410d4c65f"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
