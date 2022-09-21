@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch Julia tests",
             "cwd": "${workspaceFolder}",
-            "juliaEnv": ".",
+            "juliaEnv": "${command:activeJuliaEnvironment}",
             "program": "${workspaceFolder}/test/runtests.jl",
             "stopOnEntry": true
         },
@@ -17,10 +17,10 @@
             "type": "julia",
             "request": "launch",
             "name": "Run active Julia file",
+            "juliaEnv": "${command:activeJuliaEnvironment}",
             "program": "${file}",
             "stopOnEntry": false,
-            "cwd": "${workspaceFolder}",
-            "juliaEnv": "${command:activeJuliaEnvironment}"
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
