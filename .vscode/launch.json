@@ -9,9 +9,9 @@
             "request": "launch",
             "name": "Launch Julia tests",
             "cwd": "${workspaceFolder}",
+            "juliaEnv": ".",
             "program": "${workspaceFolder}/test/runtests.jl",
-            "stopOnEntry": true,
-            "juliaEnv": "."
+            "stopOnEntry": true
         },
         {
             "type": "julia",

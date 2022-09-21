@@ -21,8 +21,14 @@ struct E2p{T1<:UserGroup,T2<:UserGroup} <: Elt{G2p{T1,T2}}
     e1::Elt{T1}
     e2::Elt{T2}
     epHash::UInt
-    E2p{T1,T2}(e1::Elt{T1}, e2::Elt{T2}) where {T1<:UserGroup,T2<:UserGroup} = new(G2p{T1,T2}(BaseGroup(e1), BaseGroup(e2)), e1, e2, hash(GetHash(e1), GetHash(e2)))
-    E2p{T1,T2}(gp::G2p{T1,T2}, e1::Elt{T1}, e2::Elt{T2}) where {T1<:UserGroup,T2<:UserGroup} = new(gp, e1, e2, hash(GetHash(e1), GetHash(e2)))
+    function E2p{T1,T2}(e1::Elt{T1}, e2::Elt{T2}) where {T1<:UserGroup,T2<:UserGroup}
+        gp = G2p{T1,T2}(BaseGroup(e1), BaseGroup(e2))
+        new(gp, e1, e2, hash(GetHash(e1), GetHash(e2)))
+    end
+    function E2p{T1,T2}(gp::G2p{T1,T2}, e1::Elt{T1}, e2::Elt{T2}) where {T1<:UserGroup,T2<:UserGroup}
+        hsh = hash(GetHash(e1), GetHash(e2))
+        new(gp, e1, e2, hsh)
+    end
 end
 function BaseGroup(ep::E2p{T1,T2})::G2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
     ep.baseGroup
