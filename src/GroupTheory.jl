@@ -38,12 +38,15 @@ Base.show(io::IO, g::FGroup) = print(io, GetString(g))
 function Base.hash(e::Elt{T}, h::UInt)::UInt where {T<:FGroup}
     hash(GetHash(e), h)
 end
+
 function Base.:(==)(e1::Elt{T}, e2::Elt{T})::Bool where {T<:FGroup}
     GetHash(e1) == GetHash(e2)
 end
+
 function Base.isless(e1::Elt{T}, e2::Elt{T})::Bool where {T<:FGroup}
     IsLess(e1, e2)
 end
+
 function Base.show(io::IO, e::Elt{T}) where {T<:FGroup}
     print(io, GetString(e))
 end

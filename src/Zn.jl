@@ -11,9 +11,11 @@ struct Zn <: UserGroup
         return new(mod, hash(mod))
     end
 end
+
 function GetHash(g::Zn)::UInt
     return g.gHash
 end
+
 function GetString(g::Zn)::String
     return "Z$(g.mod)"
 end
@@ -34,9 +36,11 @@ struct ZnInt <: Elt{Zn}
         return ZnInt(zn, k)
     end
 end
+
 function GetHash(e::ZnInt)::UInt
     return e.eHash
 end
+
 function IsLess(e1::ZnInt, e2::ZnInt)::Bool
     if e1.baseGroup != e2.baseGroup
         throw(baseGroupEx())
@@ -44,13 +48,14 @@ function IsLess(e1::ZnInt, e2::ZnInt)::Bool
 
     return e1.k < e2.k
 end
+
 function GetString(e::ZnInt)::String
     return "$(e.k)"
 end
+
 function BaseGroup(e::ZnInt)::Zn
     return e.baseGroup
 end
-
 
 function Neutral(g::Zn)::ZnInt
     return ZnInt(g, 0)

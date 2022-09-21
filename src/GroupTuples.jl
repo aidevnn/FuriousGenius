@@ -9,9 +9,11 @@ struct G2p{T1<:UserGroup,T2<:UserGroup} <: FGroup
         new(g1, g2, hsh)
     end
 end
+
 function GetHash(gp::G2p{T1,T2})::UInt where {T1<:UserGroup,T2<:UserGroup}
     gp.gpHash
 end
+
 function GetString(gp::G2p{T1,T2})::String where {T1<:UserGroup,T2<:UserGroup}
     "$(GetString(gp.g1)) x $(GetString(gp.g2))"
 end
@@ -30,9 +32,11 @@ struct E2p{T1<:UserGroup,T2<:UserGroup} <: Elt{G2p{T1,T2}}
         new(gp, e1, e2, hsh)
     end
 end
+
 function BaseGroup(ep::E2p{T1,T2})::G2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
     ep.baseGroup
 end
+
 function IsLess(ep1::E2p{T1,T2}, ep2::E2p{T1,T2})::Bool where {T1<:UserGroup,T2<:UserGroup}
     if ep1.e1 != ep2.e1
         return IsLess(ep1.e, ep2.e1)
@@ -40,9 +44,11 @@ function IsLess(ep1::E2p{T1,T2}, ep2::E2p{T1,T2})::Bool where {T1<:UserGroup,T2<
 
     return IsLess(ep1.e2, ep2.e2)
 end
+
 function GetHash(ep::E2p{T1,T2})::UInt where {T1<:UserGroup,T2<:UserGroup}
     ep.epHash
 end
+
 function GetString(ep::E2p{T1,T2})::String where {T1<:UserGroup,T2<:UserGroup}
     "($(GetString(ep.e1)), $(GetString(ep.e2)))"
 end
@@ -50,9 +56,11 @@ end
 function Neutral(gp::G2p{T1,T2})::E2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
     E2p{T1,T2}(Neutral(gp.g1), Neutral(gp.g2))
 end
+
 function Invert(gp::G2p{T1,T2}, ep::E2p{T1,T2})::E2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
     E2p{T1,T2}(Invert(gp.g1, ep.e1), Invert(gp.g2, ep.e2))
 end
+
 function Op(gp::G2p{T1,T2}, ep1::E2p{T1,T2}, ep2::E2p{T1,T2})::E2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
     E2p{T1,T2}(Op(gp.g1, ep1.e1, ep2.e1), Op(gp.g2, ep1.e2, ep2.e2))
 end
