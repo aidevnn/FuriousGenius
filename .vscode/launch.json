@@ -8,6 +8,7 @@
             "type": "julia",
             "request": "launch",
             "name": "Launch Julia tests",
+            "cwd": "${workspaceFolder}/FuriousGenius",
             "program": "${workspaceFolder}/FuriousGenius/test/runtests.jl",
             "stopOnEntry": true
         },

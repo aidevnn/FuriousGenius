@@ -1,28 +1,55 @@
 using Exceptions
 
-export Elt, FGroup, Neutral, Invert, Op, BaseGroup,
-    GetHash, GetString, Pow, baseGroupEx
+export Elt, FGroup, UserGroup, Neutral, Invert, Op, BaseGroup,
+    GetHash, GetString, Times, baseGroupEx, IsLess, allsame
 
 # Abstract Types
-abstract type Elt end
 abstract type FGroup end
+abstract type UserGroup <: FGroup end
+abstract type Elt{T<:FGroup} end
 
 # Error Handling
 mutable struct baseGroupEx <: Exception
+    msg::String
+    baseGroupEx() = new("Element doesnt belong to the BaseGroup")
+    baseGroupEx(msg0::String) = new(msg0)
 end
 
-# Abstract Functions
-function Neutral(g::FGroup)::Elt end
-function Invert(g::FGroup, e::Elt)::Elt end
-function Op(g::FGroup, e1::Elt, e2::Elt)::Elt end
-function BaseGroup(e::Elt)::FGroup end
-function GetHash(e::Elt)::UInt end
-function GetHash(g::FGroup)::UInt end
-function GetString(e::Elt)::String end
-function GetString(g::FGroup)::String end
+Base.show(io::IO, bgEx::baseGroupEx) = print(io, bgEx.msg)
 
-# Explicit Functions
-function Pow(g::FGroup, e::Elt, p::Int)::Elt
+# Abstract Functions
+# FGroup abstract functions
+function GetHash(g::FGroup)::UInt end
+function GetString(g::FGroup)::String end
+function Neutral(g::T)::Elt{T} where {T<:FGroup} end
+function Invert(g::T, e::Elt{T})::Elt{T} where {T<:FGroup} end
+function Op(g::T, e1::Elt{T}, e2::Elt{T})::Elt{T} where {T<:FGroup} end
+
+# Element abstract functions
+function BaseGroup(e::Elt{T})::T where {T<:FGroup} end
+function IsLess(e1::Elt{T}, e2::Elt{T})::Bool where {T<:FGroup} end
+function GetHash(e::Elt{T})::UInt where {T<:FGroup} end
+function GetString(e::Elt{T})::String where {T<:FGroup} end
+
+# Taking opportunities from these julia common interfaces
+Base.hash(g::FGroup)::UInt = GetHash(g)
+Base.:(==)(g1::FGroup, g2::FGroup)::Bool = GetHash(g1) == GetHash(g2)
+Base.show(io::IO, g::FGroup) = print(io, GetString(g))
+function Base.hash(e::Elt{T}, h::UInt)::UInt where {T<:FGroup}
+    hash(GetHash(e), h)
+end
+function Base.:(==)(e1::Elt{T}, e2::Elt{T})::Bool where {T<:FGroup}
+    GetHash(e1) == GetHash(e2)
+end
+function Base.isless(e1::Elt{T}, e2::Elt{T})::Bool where {T<:FGroup}
+    IsLess(e1, e2)
+end
+function Base.show(io::IO, e::Elt{T}) where {T<:FGroup}
+    print(io, GetString(e))
+end
+
+# Extras
+function Times(g::T, e::Elt{T}, p::Int)::Elt{T} where {T<:FGroup}
     if g != BaseGroup(e)
         throw(baseGroupEx())
     end
@@ -34,22 +61,13 @@ function Pow(g::FGroup, e::Elt, p::Int)::Elt
     e0 = e
     p0 = p
     if p < 0
-        x0 = Invert(g, e)
+        e0 = Invert(g, e)
         p0 = -p
     end
     acc = Neutral(g)
-    for i = 0:p
+    for i = 1:p0
         acc = Op(g, acc, e0)
     end
 
     return acc
 end
-
-Base.:(==)(g1::FGroup, g2::FGroup)::Bool = GetHash(g1) == GetHash(g2)
-Base.:(==)(e1::Elt, e2::Elt)::Bool = GetHash(e1) == GetHash(e2)
-
-Base.:(*)(e1::Elt, e2::Elt)::Elt = Op(BaseGroup(e1), e1, e2)
-
-Base.show(io::IO, g::FGroup) = print(io, GetString(g))
-Base.show(io::IO, e::Elt) = print(io, GetString(e))
-Base.show(io::IO, e::baseGroupEx) = print(io, "Element doesnt belong to the BaseGroup")

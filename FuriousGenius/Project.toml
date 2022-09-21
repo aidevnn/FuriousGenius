@@ -1,10 +1,12 @@
 name = "FuriousGenius"
 uuid = "ebf584b5-9662-48ec-8748-0820853ea9fa"
 authors = ["aidevnn <ilyas.kadassi@gmail.com>"]
-version = "0.1.0"
+version = "0.0.1"
 
 [deps]
 Exceptions = "25a0344a-2aab-46d0-b534-6f1410d4c65f"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
