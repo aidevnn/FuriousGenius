@@ -11,20 +11,21 @@ using FuriousGenius
 
     e2 = ZnInt(3, 5)
     @testset "Create elements and groups" begin
-        @test e1 == ZnInt(11, 5)
-        @test Op(z5, e1, e2) == ZnInt(z5, 4)
-        @test Invert(z5, e2) == ZnInt(z5, 2)
-        @test Times(z5, e2, 4) == ZnInt(z5, 2)
-        @test Times(z5, e2, -2) == ZnInt(z5, 4)
+        @test e1 == z5(11)
+        @test Op(z5, e1, e2) == z5(4)
+        @test Invert(z5, e2) == z5(2)
+        @test Times(z5, e2, 4) == z5(2)
+        @test Times(z5, e2, -2) == z5(4)
         @test BaseGroup(ZnInt(4, 5)) == z5
         @test BaseGroup(ZnInt(1, 3)) == Zn(3)
         @test BaseGroup(ZnInt(0, 3)) != z5
     end
 
-    set = Set{ZnInt}([e1, e2, ZnInt(13, 5), ZnInt(z5, 21), ZnInt(48, 5)])
-    arr1 = [ZnInt(4, 7), ZnInt(2, 7), ZnInt(5, 7), ZnInt(1, 7), ZnInt(2, 7)]
-    arr2 = [ZnInt(1, 7), ZnInt(2, 7), ZnInt(2, 7), ZnInt(4, 7), ZnInt(5, 7)]
-    arr3 = [ZnInt(1, 7), ZnInt(2, 7), ZnInt(3, 7), ZnInt(4, 7), ZnInt(5, 7)]
+    z7 = Zn(7)
+    set = Set{ZnInt}([e1, e2, z5(13), z5(21), z5(48)])
+    arr1 = [z7(4), z7(2), z7(5), z7(1), z7(2)]
+    arr2 = [z7(1), z7(2), z7(2), z7(4), z7(5)]
+    arr3 = [z7(1), z7(2), ZnInt(3, 7), z7(4), z7(5)]
     @testset "Sets of group elements" begin
         @test length(set) == 2
         @test all(isequal.(sort(arr1), arr2))
