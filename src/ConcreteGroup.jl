@@ -56,60 +56,6 @@ function Monogenic(g::FGroup, e::Elt)::Set{OrderElt}
     return set
 end
 
-
-# protected Dictionary<Order, HashSet<Order>> ComputeGenerators(IEnumerable<T> elements)
-# {
-#     var ne = this.Neutral();
-#     HashSet<Order> set = new(elements.Select(e => new Order(e)));
-#     Dictionary<Order, HashSet<Order>> gens = new();
-
-#     while (set.Count != 0)
-#     {
-#         var e = set.First();
-#         var g = Monogenic(e.e);
-#         set.ExceptWith(g);
-#         if (gens.Count == 0)
-#         {
-#             gens[e] = g;
-#             continue;
-#         }
-
-#         var gens0 = new Dictionary<Order, HashSet<Order>>(gens);
-#         gens.Clear();
-#         bool found = false;
-#         foreach (var p in gens0)
-#         {
-#             var e0 = p.Key;
-#             var g0 = p.Value;
-
-#             if (g.Count > g0.Count)
-#             {
-#                 if (g.IsSupersetOf(g0))
-#                 {
-#                     if (!gens.ContainsKey(e))
-#                     {
-#                         gens[e] = g;
-#                         found = true;
-#                     }
-#                 }
-#                 else
-#                     gens[e0] = g0;
-#             }
-#             else
-#             {
-#                 gens[e0] = g0;
-#                 if (!found && g0.IsSubsetOf(g))
-#                     found = true;
-#             }
-#         }
-
-#         if (!found)
-#             gens[e] = g;
-#     }
-
-#     return gens;
-# }
-
 function Generators(g::FGroup, elements::Set{Elt})
     n = Neutral(g)
     set = Set{OrderElt}([OrderElt(e) for e in element])
@@ -118,5 +64,39 @@ function Generators(g::FGroup, elements::Set{Elt})
     while length(set) != 0
         e = set[1]
         s = Monogenic(g, e.e)
+        setdiff!(set, s)
+        if length(gens) == 0
+            gens[e] = s
+            continue
+        end
+
+        gens0 = Dict{OrderElt,Set{OrderElt}}(gens)
+        empty!(gens)
+        done = false
+        for p in gens0
+            e0 = p.first
+            s0 = p.second
+            if length(s) <= length(s0)
+                gens[e0] = s0
+                if !done && e in s0
+                    done = true
+                end
+            else
+                if e0 in g
+                    if !haskey(gens, e)
+                        gens[e] = s
+                        done = true
+                    end
+                end
+            end
+        end
+
+        if !done
+            gens[e] = s
+        end
+    end
+
+    for p in gens
+        @show p
     end
 end
