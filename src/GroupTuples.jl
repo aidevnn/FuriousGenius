@@ -54,19 +54,19 @@ function GetString(ep::E2p{T1,T2})::String where {T1<:UserGroup,T2<:UserGroup}
     "($(GetString(ep.e1)), $(GetString(ep.e2)))"
 end
 
-function Neutral(gp::G2p{T1,T2})::E2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
+function Neutral(gp::G2p{T1,T2})::Elt{G2p{T1,T2}} where {T1<:UserGroup,T2<:UserGroup}
     E2p{T1,T2}(Neutral(gp.g1), Neutral(gp.g2))
 end
 
-function Invert(gp::G2p{T1,T2}, ep::E2p{T1,T2})::E2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
+function Invert(gp::G2p{T1,T2}, ep::E2p{T1,T2})::Elt{G2p{T1,T2}} where {T1<:UserGroup,T2<:UserGroup}
     E2p{T1,T2}(Invert(gp.g1, ep.e1), Invert(gp.g2, ep.e2))
 end
 
-function Op(gp::G2p{T1,T2}, ep1::E2p{T1,T2}, ep2::E2p{T1,T2})::E2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
+function Op(gp::G2p{T1,T2}, ep1::E2p{T1,T2}, ep2::E2p{T1,T2})::Elt{G2p{T1,T2}} where {T1<:UserGroup,T2<:UserGroup}
     E2p{T1,T2}(Op(gp.g1, ep1.e1, ep2.e1), Op(gp.g2, ep1.e2, ep2.e2))
 end
 
-function (g::G2p{T1,T2})(k1::Int, k2::Int)::E2p{T1,T2} where {T1<:UserGroup,T2<:UserGroup}
+function (g::G2p{T1,T2})(k1::Int, k2::Int)::Elt{G2p{T1,T2}} where {T1<:UserGroup,T2<:UserGroup}
     E2p{T1,T2}(g, g.g1(k1), g.g2(k2))
 end
 

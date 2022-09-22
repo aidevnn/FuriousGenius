@@ -57,11 +57,11 @@ function BaseGroup(e::ZnInt)::Zn
     return e.baseGroup
 end
 
-function Neutral(g::Zn)::ZnInt
+function Neutral(g::Zn)::Elt{Zn}
     return ZnInt(g, 0)
 end
 
-function Invert(g::Zn, e::ZnInt)::ZnInt
+function Invert(g::Zn, e::ZnInt)::Elt{Zn}
     if e.baseGroup != g
         throw(baseGroupEx())
     end
@@ -69,13 +69,13 @@ function Invert(g::Zn, e::ZnInt)::ZnInt
     return ZnInt(g, g.mod - e.k)
 end
 
-function Op(g::Zn, e1::ZnInt, e2::ZnInt)::ZnInt
+function Op(g::Zn, e1::ZnInt, e2::ZnInt)::Elt{Zn}
     if g != e1.baseGroup || g != e2.baseGroup
         throw(baseGroupEx())
     end
     return ZnInt(g, e1.k + e2.k)
 end
 
-function (zn::Zn)(k::Int)::ZnInt
+function (zn::Zn)(k::Int)::Elt{Zn}
     ZnInt(zn, k)
 end
