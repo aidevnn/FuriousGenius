@@ -3,7 +3,7 @@ export Generate
 
 function Generate(g::T, leftOp::Set{U}, rightOp::Set{U})::Set{Elt{T}} where {T<:FGroup,U<:Elt{T}}
     n = Neutral(g)
-    if length(rightOp) == 0
+    if length(leftOp) == 0 || length(rightOp) == 0
         return Set{Elt{T}}(n)
     end
 
