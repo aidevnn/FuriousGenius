@@ -20,7 +20,7 @@ function GetString(g::Zn)::String
     return "Z$(g.mod)"
 end
 
-struct ZnInt <: Elt{Zn}
+struct ZnInt <: Elt
     baseGroup::Zn
     k::Int
     eHash::UInt
@@ -57,11 +57,11 @@ function BaseGroup(e::ZnInt)::Zn
     return e.baseGroup
 end
 
-function Neutral(g::Zn)::Elt{Zn}
+function Neutral(g::Zn)::ZnInt
     return ZnInt(g, 0)
 end
 
-function Invert(g::Zn, e::ZnInt)::Elt{Zn}
+function Invert(g::Zn, e::ZnInt)::ZnInt
     if e.baseGroup != g
         throw(baseGroupEx())
     end
@@ -69,13 +69,13 @@ function Invert(g::Zn, e::ZnInt)::Elt{Zn}
     return ZnInt(g, g.mod - e.k)
 end
 
-function Op(g::Zn, e1::ZnInt, e2::ZnInt)::Elt{Zn}
+function Op(g::Zn, e1::ZnInt, e2::ZnInt)::ZnInt
     if g != e1.baseGroup || g != e2.baseGroup
         throw(baseGroupEx())
     end
     return ZnInt(g, e1.k + e2.k)
 end
 
-function (zn::Zn)(k::Int)::Elt{Zn}
-    ZnInt(zn, k)
+function (zn::Zn)(v::Vararg{Int,1})::ZnInt
+    ZnInt(zn, v[1])
 end

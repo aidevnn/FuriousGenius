@@ -34,41 +34,49 @@ using FuriousGenius
 end
 
 @testset "Zm x Zn" begin
+    z4 = Zn(4)
     z8 = Zn(8)
     z15 = Zn(15)
-    z8xz15 = G2p{Zn,Zn}(z8, z15)
+    z8xz15 = Gp{2}(z8, z15)
     e1 = ZnInt(z8, 3)
     e2 = ZnInt(z15, 5)
-    ep0 = E2p{Zn,Zn}(e1, e2)
-    ep1 = E2p{Zn,Zn}(z8xz15, e1, e2)
-    ep2 = E2p{Zn,Zn}(z8(4), z15(3))
+    ep0 = Ep{2}(e1, e2)
+    ep1 = Ep{2}(e1, e2)
+    ep2 = Ep{2}(z8(4), z15(3))
 
     @testset "Create tuples" begin
-        @test z8xz15.g1 == z8
-        @test z8xz15.g2 == z15
-        @test ep0.e1 == e1
-        @test ep0.e2 == e2
+        @test z8xz15.c[1] == z8
+        @test z8xz15.c[2] == z15
+        @test ep0.c[1] == e1
+        @test ep0.c[2] == e2
         @test BaseGroup(ep0) == z8xz15
         @test BaseGroup(ep1) == z8xz15
         @test ep0 == ep1
     end
 
     @testset "Ops" begin
-        @test Invert(z8xz15, ep0) == E2p{Zn,Zn}(z8(5), z15(10))
-        @test Op(z8xz15, ep0, ep2) == E2p{Zn,Zn}(z8(7), z15(8))
+        @test Invert(z8xz15, ep0) == Ep{2}(z8(5), z15(10))
+        @test Op(z8xz15, ep0, ep2) == Ep{2}(z8(7), z15(8))
         @test Times(z8xz15, ep0, 24) == Neutral(z8xz15)
         @test Times(z8xz15, ep0, 25) != Neutral(z8xz15)
     end
 
-    z4 = Zn(4)
-    z4xz4 = G2p{Zn,Zn}(z4, z4)
-    arr0 = Set{E2p{Zn,Zn}}([Neutral(z4xz4)])
-    arr1 = Set{E2p{Zn,Zn}}([z4xz4(2, 0), z4xz4(0, 1)])
+    z4xz8xz15 = Gp{3}(z4, z8, z15)
+    e0 = Ep{3}(z4(3), z8(7), z15(4))
+    e1 = z4xz8xz15(1, 5, 8)
+    @testset "Zm x Zn x Zo" begin
+        @test Invert(z4xz8xz15, e0) == z4xz8xz15(1, 1, 11)
+        @test Op(z4xz8xz15, e0, e1) == z4xz8xz15(0, 4, 12)
+        @test Times(z4xz8xz15, z4xz8xz15(2, 4, 5), 6) == Neutral(z4xz8xz15)
+    end
+
+    z4xz4 = Gp{2}(z4, z4)
+    arr0 = Set{Elt}([Neutral(z4xz4)])
+    arr1 = Set{Elt}([z4xz4(2, 0), z4xz4(0, 1)])
     arr2 = Generate(z4xz4, arr0, arr1)
-    arr3 = Set{E2p{Zn,Zn}}([z4xz4(2 * i, j) for i = 1:2, j = 1:4])
+    arr3 = Set{Elt}([z4xz4(2 * i, j) for i = 1:2, j = 1:4])
     @testset "Generate Direct Product" begin
         @test length(arr2) == 8
         @test issetequal(arr2, arr3)
     end
-
 end

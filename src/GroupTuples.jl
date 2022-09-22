@@ -1,72 +1,69 @@
 
-export G2p, E2p, BaseGroup, IsLess, GetHash, GetString, Neutral, Invert, Op
+export Gp, Ep, BaseGroup, IsLess, GetHash, GetString, Neutral, Invert, Op
 
-struct G2p{T1<:FGroup,T2<:FGroup} <: FGroup
-    g1::T1
-    g2::T2
+struct Gp{N} <: FGroup
+    c::NTuple{N,FGroup}
     gpHash::UInt
-    function G2p{T1,T2}(g1::T1, g2::T2) where {T1<:FGroup,T2<:FGroup}
-        hsh = hash(GetHash(g1), GetHash(g2))
-        new(g1, g2, hsh)
+    function Gp{N}(v::Vararg{FGroup,N}) where {N}
+        c0 = NTuple{N,FGroup}(v)
+        hsh = hash(c0)
+        return new(c0, hsh)
+    end
+    function Gp{N}(v::NTuple{N,FGroup}) where {N}
+        hsh = hash(v)
+        return new(v, hsh)
     end
 end
 
-function GetHash(gp::G2p{T1,T2})::UInt where {T1<:FGroup,T2<:FGroup}
-    gp.gpHash
+function GetHash(g::Gp{N})::UInt where {N}
+    g.gpHash
+end
+function GetString(g::Gp{N})::String where {N}
+    string(g.c)
 end
 
-function GetString(gp::G2p{T1,T2})::String where {T1<:FGroup,T2<:FGroup}
-    "$(GetString(gp.g1)) x $(GetString(gp.g2))"
-end
-
-struct E2p{T1<:FGroup,T2<:FGroup} <: Elt{G2p{T1,T2}}
-    baseGroup::G2p{T1,T2}
-    e1::Elt{T1}
-    e2::Elt{T2}
+struct Ep{N} <: Elt
+    baseGroup::Gp{N}
+    c::NTuple{N,Elt}
     epHash::UInt
-    function E2p{T1,T2}(e1::Elt{T1}, e2::Elt{T2}) where {T1<:FGroup,T2<:FGroup}
-        gp = G2p{T1,T2}(BaseGroup(e1), BaseGroup(e2))
-        new(gp, e1, e2, hash(GetHash(e1), GetHash(e2)))
+    function Ep{N}(v::Vararg{Elt,N}) where {N}
+        bg = Gp{N}(map(BaseGroup, v))
+        c0 = NTuple{N,Elt}(v)
+        hsh = hash(c0)
+        return new(bg, c0, hsh)
     end
-    function E2p{T1,T2}(gp::G2p{T1,T2}, e1::Elt{T1}, e2::Elt{T2}) where {T1<:FGroup,T2<:FGroup}
-        hsh = hash(GetHash(e1), GetHash(e2))
-        new(gp, e1, e2, hsh)
+    function Ep{N}(v::NTuple{N,Elt}) where {N}
+        bg = Gp{N}(map(BaseGroup, v))
+        hsh = hash(v)
+        return new(bg, v, hsh)
     end
 end
 
-function BaseGroup(ep::E2p{T1,T2})::G2p{T1,T2} where {T1<:FGroup,T2<:FGroup}
-    ep.baseGroup
+function GetHash(e::Ep{N})::UInt where {N}
+    e.epHash
+end
+function GetString(e::Ep{N})::String where {N}
+    string(e.c)
+end
+function BaseGroup(e::Ep{N})::Gp{N} where {N}
+    e.baseGroup
+end
+function IsLess(e1::Ep{N}, e2::Ep{N})::Bool where {N}
+    all(IsLess.(e1.c, e2.c))
 end
 
-function IsLess(ep1::E2p{T1,T2}, ep2::E2p{T1,T2})::Bool where {T1<:FGroup,T2<:FGroup}
-    if ep1.e1 != ep2.e1
-        return IsLess(ep1.e, ep2.e1)
-    end
-
-    return IsLess(ep1.e2, ep2.e2)
+function Neutral(g::Gp{N})::Ep{N} where {N}
+    Ep{N}(Neutral.(g.c))
 end
 
-function GetHash(ep::E2p{T1,T2})::UInt where {T1<:FGroup,T2<:FGroup}
-    ep.epHash
+function Invert(g::Gp{N}, e::Ep{N})::Ep{N} where {N}
+    Ep{N}(Invert.(g.c, e.c))
 end
 
-function GetString(ep::E2p{T1,T2})::String where {T1<:FGroup,T2<:FGroup}
-    "($(GetString(ep.e1)), $(GetString(ep.e2)))"
+function Op(g::Gp{N}, e1::Ep{N}, e2::Ep{N})::Ep{N} where {N}
+    Ep{N}(Op.(g.c, e1.c, e2.c))
 end
 
-function Neutral(gp::G2p{T1,T2})::E2p{T1,T2} where {T1<:FGroup,T2<:FGroup}
-    E2p{T1,T2}(Neutral(gp.g1), Neutral(gp.g2))
+function (g::Gp{N})(v::Vararg{Int,N})::Ep{N} where {N}
+    Ep{N}(map.(g.c, v))
 end
-
-function Invert(gp::G2p{T1,T2}, ep::E2p{T1,T2})::E2p{T1,T2} where {T1<:FGroup,T2<:FGroup}
-    E2p{T1,T2}(Invert(gp.g1, ep.e1), Invert(gp.g2, ep.e2))
-end
-
-function Op(gp::G2p{T1,T2}, ep1::E2p{T1,T2}, ep2::E2p{T1,T2})::E2p{T1,T2} where {T1<:FGroup,T2<:FGroup}
-    E2p{T1,T2}(Op(gp.g1, ep1.e1, ep2.e1), Op(gp.g2, ep1.e2, ep2.e2))
-end
-
-function (g::G2p{T1,T2})(k1::Int, k2::Int)::E2p{T1,T2} where {T1<:FGroup,T2<:FGroup}
-    E2p{T1,T2}(g, g.g1(k1), g.g2(k2))
-end
-
