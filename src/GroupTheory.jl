@@ -24,6 +24,7 @@ function GetString(g::FGroup)::String end
 function Neutral(g::T)::Elt{T} where {T<:FGroup} end
 function Invert(g::T, e::Elt{T})::Elt{T} where {T<:FGroup} end
 function Op(g::T, e1::Elt{T}, e2::Elt{T})::Elt{T} where {T<:FGroup} end
+function (g::FGroup)(k::Int)::Elt{FGroup} end
 
 # Element abstract functions
 function BaseGroup(e::Elt{T})::T where {T<:FGroup} end
