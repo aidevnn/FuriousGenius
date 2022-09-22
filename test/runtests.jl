@@ -59,4 +59,14 @@ end
         @test Times(z8xz15, ep0, 24) == Neutral(z8xz15)
         @test Times(z8xz15, ep0, 25) != Neutral(z8xz15)
     end
+
+    z4 = Zn(4)
+    z4xz4 = G2p{Zn,Zn}(z4, z4)
+    arr0 = Set{E2p{Zn,Zn}}([z4xz4(2 * i, 0) for i = 1:2])
+    arr1 = Set{E2p{Zn,Zn}}([z4xz4(0, i) for i = 1:4])
+    arr2 = Generate(z4xz4, arr0, arr1)
+    @testset "Generate" begin
+        @test length(arr2) == 8
+    end
+
 end

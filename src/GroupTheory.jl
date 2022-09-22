@@ -1,11 +1,10 @@
 using Exceptions
 
-export Elt, FGroup, UserGroup, Neutral, Invert, Op, BaseGroup,
+export Elt, FGroup, Neutral, Invert, Op, BaseGroup,
     GetHash, GetString, Times, baseGroupEx, IsLess, allsame
 
 # Abstract Types
 abstract type FGroup end
-abstract type UserGroup <: FGroup end
 abstract type Elt{T<:FGroup} end
 
 # Error Handling
