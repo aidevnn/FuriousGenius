@@ -5,6 +5,8 @@ struct OrderElt
     e::Elt
     g::Elt
     p::Int
+    OrderElt(e::Elt) = new(e, e, 1)
+    OrderElt(e::Elt, g::Elt, p::Int) = new(e, g, p)
 end
 
 Base.hash(o::OrderElt, h::UInt)::UInt = hash(GetHash(o.e), h)
@@ -54,3 +56,67 @@ function Monogenic(g::FGroup, e::Elt)::Set{OrderElt}
     return set
 end
 
+
+# protected Dictionary<Order, HashSet<Order>> ComputeGenerators(IEnumerable<T> elements)
+# {
+#     var ne = this.Neutral();
+#     HashSet<Order> set = new(elements.Select(e => new Order(e)));
+#     Dictionary<Order, HashSet<Order>> gens = new();
+
+#     while (set.Count != 0)
+#     {
+#         var e = set.First();
+#         var g = Monogenic(e.e);
+#         set.ExceptWith(g);
+#         if (gens.Count == 0)
+#         {
+#             gens[e] = g;
+#             continue;
+#         }
+
+#         var gens0 = new Dictionary<Order, HashSet<Order>>(gens);
+#         gens.Clear();
+#         bool found = false;
+#         foreach (var p in gens0)
+#         {
+#             var e0 = p.Key;
+#             var g0 = p.Value;
+
+#             if (g.Count > g0.Count)
+#             {
+#                 if (g.IsSupersetOf(g0))
+#                 {
+#                     if (!gens.ContainsKey(e))
+#                     {
+#                         gens[e] = g;
+#                         found = true;
+#                     }
+#                 }
+#                 else
+#                     gens[e0] = g0;
+#             }
+#             else
+#             {
+#                 gens[e0] = g0;
+#                 if (!found && g0.IsSubsetOf(g))
+#                     found = true;
+#             }
+#         }
+
+#         if (!found)
+#             gens[e] = g;
+#     }
+
+#     return gens;
+# }
+
+function Generators(g::FGroup, elements::Set{Elt})
+    n = Neutral(g)
+    set = Set{OrderElt}([OrderElt(e) for e in element])
+    gens = Dict{OrderElt,Set{OrderElt}}()
+
+    while length(set) != 0
+        e = set[1]
+        s = Monogenic(g, e.e)
+    end
+end

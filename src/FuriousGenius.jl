@@ -10,7 +10,7 @@ export ZnInt, Zn, Neutral, Invert, Op, BaseGroup, GetHash, GetString
 export Generate
 
 include("GroupTheory.jl")
-include("GroupNTuples.jl")
+include("GroupTuples.jl")
 include("ConcreteGroup.jl")
 include("Zn.jl")
 
