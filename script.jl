@@ -37,23 +37,19 @@ z8xz10 = Gp{2}(z8, z10)
 # @show Times(z5xz10xz15, e1, 4);
 
 # println()
+m = 9
+n = 6
+zMxzN = Gp{2}(Zn(m), Zn(n))
+void = Set{Elt}([Neutral(zMxzN)])
+gs = Set{Elt}([zMxzN(1, 0), zMxzN(0, 1)])
+elts = Generate(zMxzN, void, gs)
 
-g = z8xz10(2, 2)
-v0 = Monogenic(z8xz10, g)
-v1 = Monogenic(z8xz10, z8xz10(4, 4))
-@show z8xz10
-# @show g
-# for e in v0
-#     println(e)
-# end
+gens = Generators(zMxzN, elts)
 
-@show intersect(v0, v1)
-
-@show intersect(v1, v0)
-
-d = first(v0)
-@show d
-@show typeof(d)
-
+for p in gens
+    @show p.first length(p.second)
+    @show p.second
+    println()
+end
 
 println("bye.")

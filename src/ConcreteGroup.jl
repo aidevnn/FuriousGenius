@@ -1,5 +1,5 @@
 
-export Generate, Monogenic
+export Generate, Monogenic, Generators
 
 struct OrderElt
     e::Elt
@@ -11,7 +11,7 @@ end
 
 Base.hash(o::OrderElt, h::UInt)::UInt = hash(GetHash(o.e), h)
 Base.:(==)(o1::OrderElt, o2::OrderElt)::Bool = o1.e == o2.e
-Base.isless(o1::OrderElt, o2::OrderElt)::Bool = o1.e == o2.e ? o1.p < o2.p : IsLess(o1.e, o2.e)
+Base.isless(o1::OrderElt, o2::OrderElt)::Bool = o1.p == o2.p ? IsLess(o1.e, o2.e) : (o1.p < o2.p)
 Base.show(io::IO, o::OrderElt) = print(io, "g^$(o.p)=$(o.e)")
 
 function Generate(g::FGroup, leftOp::Set{Elt}, rightOp::Set{Elt})::Set{Elt}
@@ -56,13 +56,17 @@ function Monogenic(g::FGroup, e::Elt)::Set{OrderElt}
     return set
 end
 
-function Generators(g::FGroup, elements::Set{Elt})
+function Generators(g::FGroup, elements::Set{Elt})::Dict{OrderElt,Set{OrderElt}}
     n = Neutral(g)
-    set = Set{OrderElt}([OrderElt(e) for e in element])
+    set = Vector{OrderElt}(sort([OrderElt(e) for e in elements]))
     gens = Dict{OrderElt,Set{OrderElt}}()
 
+    @show set
+    @show length(set)
+    println()
+
     while length(set) != 0
-        e = set[1]
+        e = first(set)
         s = Monogenic(g, e.e)
         setdiff!(set, s)
         if length(gens) == 0
@@ -77,26 +81,30 @@ function Generators(g::FGroup, elements::Set{Elt})
             e0 = p.first
             s0 = p.second
             if length(s) <= length(s0)
-                gens[e0] = s0
+                key = minimum(s0)
+                gens[key] = s0
                 if !done && e in s0
                     done = true
                 end
             else
-                if e0 in g
+                if e0 in s
                     if !haskey(gens, e)
-                        gens[e] = s
+                        key = minimum(s)
+                        gens[key] = s
                         done = true
                     end
+                else
+                    key = minimum(s0)
+                    gens[key] = s0
                 end
             end
         end
 
         if !done
-            gens[e] = s
+            key = minimum(s)
+            gens[key] = s
         end
     end
 
-    for p in gens
-        @show p
-    end
+    return gens
 end

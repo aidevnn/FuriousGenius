@@ -53,7 +53,16 @@ function BaseGroup(e::Ep{N})::Gp{N} where {N}
 end
 
 function IsLess(e1::Ep{N}, e2::Ep{N})::Bool where {N}
-    all(IsLess.(e1.c, e2.c))
+    for i = 1:N
+        e1c = e1.c[i]
+        e2c = e2.c[i]
+        if e1c == e2c
+            continue
+        else
+            return IsLess(e1c, e2c)
+        end
+    end
+    return false
 end
 
 function Neutral(g::Gp{N})::Ep{N} where {N}
