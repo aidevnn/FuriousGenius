@@ -5,8 +5,11 @@ using FuriousGenius
     z5 = Zn(5)
     e1 = z5(1)
     @testset "Throwing Exceptions" begin
-        @test_throws ErrorException Zn(-5)
-        @test_throws baseGroupEx Op(z5, e1, ZnInt(1, 6))
+        @test_throws GroupException Zn(-5)
+        @test_throws GroupException Invert(z5, ZnInt(2, 7))
+        @test_throws GroupException Op(z5, e1, ZnInt(1, 6))
+        @test_throws GroupException Times(z5, ZnInt(2, 7), 2)
+        @test_throws GroupException IsLess(e1, ZnInt(1, 6))
     end
 
     e2 = ZnInt(3, 5)
@@ -69,14 +72,45 @@ end
         @test Op(z4xz8xz15, e0, e1) == z4xz8xz15(0, 4, 12)
         @test Times(z4xz8xz15, z4xz8xz15(2, 4, 5), 6) == Neutral(z4xz8xz15)
     end
+end
 
-    z4xz4 = Gp{2}(z4, z4)
+@testset "Concrete Grp" begin
+    z4xz4 = Gp{2}(Zn(4), Zn(4))
     arr0 = Set{Elt}([Neutral(z4xz4)])
     arr1 = Set{Elt}([z4xz4(2, 0), z4xz4(0, 1)])
     arr2 = Generate(z4xz4, arr0, arr1)
     arr3 = Set{Elt}([z4xz4(2 * i, j) for i = 1:2, j = 1:4])
-    @testset "Generate Direct Product" begin
+    @testset "Direct Product" begin
         @test length(arr2) == 8
         @test issetequal(arr2, arr3)
+    end
+
+    g = Gp{2}(Zn(2), Zn(4))
+    it1 = Monogenic(g, g(1, 1))
+    it2 = Dict{Elt,Int}(g(1, 1) => 1, g(0, 2) => 2, g(1, 3) => 3, g(0, 0) => 4)
+    @testset "Monogenic" begin
+        @test length(it1) == 4
+        @test issetequal(it1, it2)
+    end
+
+    void = Set{Elt}([Neutral(g)])
+    gs = Set{Elt}([g(1, 0), g(0, 1)])
+    elts = Generate(g, void, gs)
+    gens = Generators(g, elts)
+    orders = ElementOrder(gens)
+    validOrders = Dict{Elt,Int}(
+        g(0, 0) => 1, g(1, 0) => 2,
+        g(0, 2) => 2, g(1, 2) => 2,
+        g(1, 3) => 4, g(1, 1) => 4,
+        g(0, 1) => 4, g(0, 3) => 4)
+
+    @testset "Generators and Orders" begin
+        @test length(gens) == 4
+        @test issetequal(gens[g(1, 0)], Dict{Elt,Int}(g(1, 0) => 1, g(0, 0) => 2))
+        @test issetequal(gens[g(1, 2)], Dict{Elt,Int}(g(1, 2) => 1, g(0, 0) => 2))
+        @test issetequal(gens[g(0, 1)], Dict{Elt,Int}(g(0, 1) => 1, g(0, 2) => 2, g(0, 3) => 3, g(0, 0) => 4))
+        @test issetequal(gens[g(1, 1)], Dict{Elt,Int}(g(1, 1) => 1, g(0, 2) => 2, g(1, 3) => 3, g(0, 0) => 4))
+        @test length(orders) == 8
+        @test issetequal(orders, validOrders)
     end
 end

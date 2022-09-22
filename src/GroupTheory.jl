@@ -1,4 +1,3 @@
-using Exceptions
 
 export Elt, FGroup, Neutral, Invert, Op, BaseGroup,
     GetHash, GetString, Times, baseGroupEx, IsLess
@@ -6,15 +5,6 @@ export Elt, FGroup, Neutral, Invert, Op, BaseGroup,
 # Abstract Types
 abstract type FGroup end
 abstract type Elt end
-
-# Error Handling
-mutable struct baseGroupEx <: Exception
-    msg::String
-    baseGroupEx() = new("Element doesnt belong to the BaseGroup")
-    baseGroupEx(msg0::String) = new(msg0)
-end
-
-Base.show(io::IO, bgEx::baseGroupEx) = print(io, bgEx.msg)
 
 # Abstract Functions
 # FGroup abstract functions
@@ -55,7 +45,7 @@ end
 # Extras
 function Times(g::FGroup, e::Elt, p::Int)::Elt
     if g != BaseGroup(e)
-        throw(baseGroupEx())
+        throw(GroupException())
     end
 
     if p == 0

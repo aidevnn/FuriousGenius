@@ -6,7 +6,7 @@ struct Zn <: FGroup
     gHash::UInt
     function Zn(mod::Int)
         if mod < 2
-            error("mod in Zn(mod) must be at least 2")
+            throw(GroupException(GroupDefinitionEx))
         end
         return new(mod, hash(mod))
     end
@@ -43,7 +43,7 @@ end
 
 function IsLess(e1::ZnInt, e2::ZnInt)::Bool
     if e1.baseGroup != e2.baseGroup
-        throw(baseGroupEx())
+        throw(GroupException())
     end
 
     return e1.k < e2.k
@@ -63,7 +63,7 @@ end
 
 function Invert(g::Zn, e::ZnInt)::ZnInt
     if e.baseGroup != g
-        throw(baseGroupEx())
+        throw(GroupException())
     end
 
     return ZnInt(g, g.mod - e.k)
@@ -71,7 +71,7 @@ end
 
 function Op(g::Zn, e1::ZnInt, e2::ZnInt)::ZnInt
     if g != e1.baseGroup || g != e2.baseGroup
-        throw(baseGroupEx())
+        throw(GroupException())
     end
     return ZnInt(g, e1.k + e2.k)
 end

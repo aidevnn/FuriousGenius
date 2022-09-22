@@ -9,6 +9,8 @@ export ZnInt, Zn, Neutral, Invert, Op, BaseGroup, GetHash, GetString
 
 export Generate
 
+include("Enumerations.jl")
+include("GroupException.jl")
 include("GroupTheory.jl")
 include("GroupTuples.jl")
 include("ConcreteGroup.jl")

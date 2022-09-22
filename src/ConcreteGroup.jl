@@ -1,18 +1,5 @@
 
-export Generate, Monogenic, Generators
-
-struct OrderElt
-    e::Elt
-    g::Elt
-    p::Int
-    OrderElt(e::Elt) = new(e, e, 1)
-    OrderElt(e::Elt, g::Elt, p::Int) = new(e, g, p)
-end
-
-Base.hash(o::OrderElt, h::UInt)::UInt = hash(GetHash(o.e), h)
-Base.:(==)(o1::OrderElt, o2::OrderElt)::Bool = o1.e == o2.e
-Base.isless(o1::OrderElt, o2::OrderElt)::Bool = o1.p == o2.p ? IsLess(o1.e, o2.e) : (o1.p < o2.p)
-Base.show(io::IO, o::OrderElt) = print(io, "g^$(o.p)=$(o.e)")
+export Generate, Monogenic, Generators, ElementOrder
 
 function Generate(g::FGroup, leftOp::Set{Elt}, rightOp::Set{Elt})::Set{Elt}
     if length(leftOp) == 0 || length(rightOp) == 0
@@ -41,70 +28,82 @@ function Generate(g::FGroup, leftOp::Set{Elt}, rightOp::Set{Elt})::Set{Elt}
     return set
 end
 
-function Monogenic(g::FGroup, e::Elt)::Set{OrderElt}
-    set = Set{OrderElt}()
+function Monogenic(g::FGroup, e::Elt)::Dict{Elt,Int}
+    map = Dict{Elt,Int}()
     n = Neutral(g)
     e0 = e
     p = 1
-    push!(set, OrderElt(e0, e, p))
+    map[e0] = p
 
     while e0 != n
         e0 = Op(g, e0, e)
         p += 1
-        push!(set, OrderElt(e0, e, p))
+        map[e0] = p
     end
-    return set
+    return map
 end
 
-function Generators(g::FGroup, elements::Set{Elt})::Dict{OrderElt,Set{OrderElt}}
+function Generators(g::FGroup, elements::Set{Elt})::Dict{Elt,Dict{Elt,Int}}
     n = Neutral(g)
-    set = Vector{OrderElt}(sort([OrderElt(e) for e in elements]))
-    gens = Dict{OrderElt,Set{OrderElt}}()
+    list = Vector{Elt}(collect(elements))
+    sort!(list)
+    gens = Dict{Elt,Dict{Elt,Int}}()
 
-    @show set
-    @show length(set)
-    println()
-
-    while length(set) != 0
-        e = first(set)
-        s = Monogenic(g, e.e)
-        setdiff!(set, s)
+    while length(list) != 0
+        e = first(list)
+        s = Monogenic(g, e)
+        setdiff!(list, keys(s))
         if length(gens) == 0
             gens[e] = s
             continue
         end
 
-        gens0 = Dict{OrderElt,Set{OrderElt}}(gens)
+        gens0 = Dict{Elt,Dict{Elt,Int}}(gens)
         empty!(gens)
         done = false
         for p in gens0
             e0 = p.first
             s0 = p.second
             if length(s) <= length(s0)
-                key = minimum(s0)
-                gens[key] = s0
-                if !done && e in s0
+                gens[e0] = s0
+                if !done && haskey(s0, e)
                     done = true
                 end
             else
-                if e0 in s
+                if haskey(s, e0)
                     if !haskey(gens, e)
-                        key = minimum(s)
-                        gens[key] = s
+                        gens[e] = s
                         done = true
                     end
                 else
-                    key = minimum(s0)
-                    gens[key] = s0
+                    gens[e0] = s0
                 end
             end
         end
 
         if !done
-            key = minimum(s)
-            gens[key] = s
+            gens[e] = s
         end
     end
 
     return gens
+end
+
+function ElementOrder(gens::Dict{Elt,Dict{Elt,Int}})::Dict{Elt,Int}
+    orders = Dict{Elt,Int}()
+    for p0 in gens
+        s = p0.second
+        n = length(s)
+        for p1 in s
+            e = p1.first
+            p = p1.second
+            o = n / gcd(n, p)
+            if !haskey(orders, e)
+                orders[e] = o
+            elseif orders[e] != o
+                throw(GroupException("TO DO e=$(e) p=$(orders[e]) ? $o"))
+            end
+        end
+    end
+    return orders
 end
