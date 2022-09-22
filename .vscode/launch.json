@@ -21,15 +21,6 @@
             "program": "${workspaceFolder}/script.jl",
             "stopOnEntry": false,
             "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "julia",
-            "request": "launch",
-            "name": "Run active Julia file",
-            "juliaEnv": "${command:activeJuliaEnvironment}",
-            "program": "${file}",
-            "stopOnEntry": false,
-            "cwd": "${workspaceFolder}"
         }
     ]
 }

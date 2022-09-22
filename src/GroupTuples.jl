@@ -18,6 +18,7 @@ end
 function GetHash(g::Gp{N})::UInt where {N}
     g.gpHash
 end
+
 function GetString(g::Gp{N})::String where {N}
     string(g.c)
 end
@@ -42,12 +43,15 @@ end
 function GetHash(e::Ep{N})::UInt where {N}
     e.epHash
 end
+
 function GetString(e::Ep{N})::String where {N}
     string(e.c)
 end
+
 function BaseGroup(e::Ep{N})::Gp{N} where {N}
     e.baseGroup
 end
+
 function IsLess(e1::Ep{N}, e2::Ep{N})::Bool where {N}
     all(IsLess.(e1.c, e2.c))
 end

@@ -7,7 +7,7 @@ struct OrderElt
     p::Int
 end
 
-Base.hash(o::OrderElt, h::UInt)::UInt = GetHash(o.e)
+Base.hash(o::OrderElt, h::UInt)::UInt = hash(GetHash(o.e), h)
 Base.:(==)(o1::OrderElt, o2::OrderElt)::Bool = o1.e == o2.e
 Base.isless(o1::OrderElt, o2::OrderElt)::Bool = o1.e == o2.e ? o1.p < o2.p : IsLess(o1.e, o2.e)
 Base.show(io::IO, o::OrderElt) = print(io, "g^$(o.p)=$(o.e)")
@@ -53,3 +53,4 @@ function Monogenic(g::FGroup, e::Elt)::Set{OrderElt}
     end
     return set
 end
+

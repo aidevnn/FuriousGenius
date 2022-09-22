@@ -32,7 +32,7 @@ function GetString(e::Elt)::String end
 function BaseGroup(e::Elt)::FGroup end
 function IsLess(e1::Elt, e2::Elt)::Bool end
 
-# Taking opportunities from these julia common interfaces
+# Taking opportunities from julia common interfaces
 Base.hash(g::FGroup, h::UInt)::UInt = hash(GetHash(g), h)
 Base.:(==)(g1::FGroup, g2::FGroup)::Bool = GetHash(g1) == GetHash(g2)
 Base.show(io::IO, g::FGroup) = print(io, GetString(g))
