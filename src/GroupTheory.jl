@@ -1,7 +1,7 @@
 using Exceptions
 
 export Elt, FGroup, Neutral, Invert, Op, BaseGroup,
-    GetHash, GetString, Times, baseGroupEx, IsLess, allsame
+    GetHash, GetString, Times, baseGroupEx, IsLess
 
 # Abstract Types
 abstract type FGroup end

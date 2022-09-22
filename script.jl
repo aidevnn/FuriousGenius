@@ -14,8 +14,8 @@ z10xz15 = G2p{Zn,Zn}(z10, z15)
 @show methods(z10)
 @show methods(z10xz15)
 
-arr0 = Set{E2p{Zn,Zn}}([z10xz15(i, 0) for i = 2:2:10])
-arr1 = Set{E2p{Zn,Zn}}([z10xz15(0, i) for i = 3:3:15])
+arr0 = Set{E2p{Zn,Zn}}([Neutral(z10xz15)])
+arr1 = Set{E2p{Zn,Zn}}([z10xz15(2, 0), z10xz15(0, 3)])
 @show arr0
 @show arr1
 

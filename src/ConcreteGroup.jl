@@ -12,7 +12,7 @@ function Generate(g::T, leftOp::Set{U}, rightOp::Set{U})::Set{Elt{T}} where {T<:
     pushfirst!(q, n)
 
     while length(q) != 0
-        e0 = popfirst!(q)
+        e0 = pop!(q)
         for e1 in rightOp
             e2 = Op(g, e0, e1)
             if !(e2 in all)

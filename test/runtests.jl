@@ -62,8 +62,8 @@ end
 
     z4 = Zn(4)
     z4xz4 = G2p{Zn,Zn}(z4, z4)
-    arr0 = Set{E2p{Zn,Zn}}([z4xz4(2, 0)])
-    arr1 = Set{E2p{Zn,Zn}}([z4xz4(0, 1)])
+    arr0 = Set{E2p{Zn,Zn}}([Neutral(z4xz4)])
+    arr1 = Set{E2p{Zn,Zn}}([z4xz4(2, 0), z4xz4(0, 1)])
     arr2 = Generate(z4xz4, arr0, arr1)
     arr3 = Set{E2p{Zn,Zn}}([z4xz4(2 * i, j) for i = 1:2, j = 1:4])
     @testset "Generate Direct Product" begin
