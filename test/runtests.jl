@@ -62,11 +62,13 @@ end
 
     z4 = Zn(4)
     z4xz4 = G2p{Zn,Zn}(z4, z4)
-    arr0 = Set{E2p{Zn,Zn}}([z4xz4(2 * i, 0) for i = 1:2])
-    arr1 = Set{E2p{Zn,Zn}}([z4xz4(0, i) for i = 1:4])
+    arr0 = Set{E2p{Zn,Zn}}([z4xz4(2, 0)])
+    arr1 = Set{E2p{Zn,Zn}}([z4xz4(0, 1)])
     arr2 = Generate(z4xz4, arr0, arr1)
-    @testset "Generate" begin
+    arr3 = Set{E2p{Zn,Zn}}([z4xz4(2 * i, j) for i = 1:2, j = 1:4])
+    @testset "Generate Direct Product" begin
         @test length(arr2) == 8
+        @test issetequal(arr2, arr3)
     end
 
 end
