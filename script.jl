@@ -37,35 +37,44 @@ z8xz10 = Gp{2}(z8, z10)
 # @show Times(z5xz10xz15, e1, 4);
 
 # println()
-m = 2
-n = 4
-zMxzN = Gp{2}(Zn(m), Zn(n))
+# m = 2
+# n = 4
+# zMxzN = Gp{2}(Zn(m), Zn(n))
 
-m = Monogenic(zMxzN, zMxzN(1, 3))
-for e in sort(collect(m), by=x -> x[2])
-    println("$(e.first) => $(e.second)")
-end
+# m = Monogenic(zMxzN, zMxzN(1, 3))
+# for e in sort(collect(m), by=x -> x[2])
+#     println("$(e.first) => $(e.second)")
+# end
 
-println()
+# println()
 
-void = Set{Elt}([Neutral(zMxzN)])
-gs = Set{Elt}([zMxzN(1, 0), zMxzN(0, 1)])
-elts = Generate(zMxzN, void, gs)
-gens = Generators(zMxzN, elts)
+# void = Set{Elt}([Neutral(zMxzN)])
+# gs = Set{Elt}([zMxzN(1, 0), zMxzN(0, 1)])
+# elts = Generate(zMxzN, void, gs)
+# gens = Generators(zMxzN, elts)
 
-for p in sort(collect(gens), by=x -> (length(x[2]), x[1]))
-    @show p.first length(p.second)
-    for e in sort(collect(p.second), by=x -> x[2])
-        print("[$(e.first), $(e.second)] ")
-    end
-    println()
-end
+# for p in sort(collect(gens), by=x -> (length(x[2]), x[1]))
+#     @show p.first length(p.second)
+#     for e in sort(collect(p.second), by=x -> x[2])
+#         print("[$(e.first), $(e.second)] ")
+#     end
+#     println()
+# end
 
-orders = ElementOrder(gens)
-println("Element Order")
-for e in sort(collect(orders), by=x -> x[2])
-    println("[$(e.first), $(e.second)] ")
-end
+# orders = ElementOrder(gens)
+# println("Element Order")
+# for e in sort(collect(orders), by=x -> x[2])
+#     println("[$(e.first), $(e.second)] ")
+# end
 
+cg0 = ConcreteGroup(z5)
+cg1 = ConcreteGroup(cg0)
+@show cg0
+@show cg0.superGroup
+@show GetHash(cg0)
+@show cg1
+@show cg1.superGroup
+@show GetHash(cg1)
+@show Invert(cg0, z5(2))
 
 println("bye.")

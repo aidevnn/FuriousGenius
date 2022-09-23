@@ -1,5 +1,7 @@
+using Random
+using UUIDs
 
-export Generate, Monogenic, Generators, ElementOrder
+export Generate, Monogenic, Generators, ElementOrder, ConcreteGroup
 
 function Generate(g::FGroup, leftOp::Set{Elt}, rightOp::Set{Elt})::Set{Elt}
     if length(leftOp) == 0 || length(rightOp) == 0
@@ -27,6 +29,8 @@ function Generate(g::FGroup, leftOp::Set{Elt}, rightOp::Set{Elt})::Set{Elt}
 
     return set
 end
+
+Generate(g::FGroup, gens::Set{Elt})::Set{Elt} = Generate(g, Set{Elt}([Neutral(g)]), gens)
 
 function Monogenic(g::FGroup, e::Elt)::Dict{Elt,Int}
     map = Dict{Elt,Int}()
@@ -106,4 +110,68 @@ function ElementOrder(gens::Dict{Elt,Dict{Elt,Int}})::Dict{Elt,Int}
         end
     end
     return orders
+end
+
+function IsAbelian(g::FGroup, elements::Vector{Elt})::Bool
+    for e0 in elements
+        for e1 in elements
+            e01 = Op(g, e0, e1)
+            e10 = Op(g, e1, e0)
+            if e01 != e10
+                return false
+            end
+        end
+    end
+
+    return true
+end
+
+struct ConcreteGroup <: FGroup
+    baseGroup::FGroup
+    superGroup::Union{ConcreteGroup,Nothing}
+    elements::Vector{Elt}
+    groupType::GroupType
+    monogenics::Dict{Elt,Dict{Elt,Int}}
+    cgHash::UInt
+    function ConcreteGroup(bg::FGroup)
+        bg0 = bg isa ConcreteGroup ? bg.baseGroup : bg
+        cg0 = bg isa ConcreteGroup ? bg : nothing
+        n = Neutral(bg0)
+        elts = Vector{Elt}([n])
+        mg = Dict{Elt,Dict{Elt,Int}}(n => Dict{Elt,Int}(n => 1))
+        return new(bg0, cg0, elts, AbelianGroup, mg, hash(uuid1()))
+    end
+end
+
+function GetHash(g::ConcreteGroup)::UInt
+    g.cgHash
+end
+function GetString(g::ConcreteGroup)::String
+    return "NoName" # TODO
+end
+
+function Neutral(g::ConcreteGroup)::Elt
+    if isnothing(g.superGroup)
+        return Neutral(g.baseGroup)
+    else
+        return Neutral(g.superGroup)
+    end
+end
+function Invert(g::ConcreteGroup, e::Elt)::Elt
+    if isnothing(g.superGroup)
+        return Invert(g.baseGroup, e)
+    else
+        return Invert(g.superGroup, e)
+    end
+end
+function Op(g::ConcreteGroup, e1::Elt, e2::Elt)::Elt
+    if isnothing(g.superGroup)
+        return Op(g.baseGroup, e1, e2)
+    else
+        return Op(g.superGroup, e1, e2)
+    end
+end
+
+function (g::ConcreteGroup)(v::Vararg{Int,1})::Elt
+    g.elements[v[1]]
 end

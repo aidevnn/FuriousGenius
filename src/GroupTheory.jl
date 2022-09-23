@@ -14,7 +14,7 @@ function GetString(g::FGroup)::String end
 function Neutral(g::FGroup)::Elt end
 function Invert(g::FGroup, e::Elt)::Elt end
 function Op(g::FGroup, e1::Elt, e2::Elt)::Elt end
-function (g::FGroup)(v::Vararg{Int,N})::Elt{FGroup} where {N} end
+function (g::FGroup)(v::Vararg{Int,N})::Elt where {N} end
 
 # Element abstract functions
 function GetHash(e::Elt)::UInt end

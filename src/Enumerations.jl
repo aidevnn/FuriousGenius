@@ -4,8 +4,9 @@ export ExceptionType, GroupType
 @enum ExceptionType begin
     GroupDefinitionEx
     BaseGroupEx
-    SubGroupElementEx
-    SubGroupEx
+    SubGroupElementEx # TODO
+    NotSubGroupEx # TODO
+    NotNormalEx # TODO
 end
 
 @enum GroupType begin
