@@ -113,4 +113,17 @@ end
         @test length(orders) == 8
         @test issetequal(orders, validOrders)
     end
+
+    cg0 = ConcreteGroup(Zn(20))
+    cg1 = ConcreteGroup(cg0)
+    cg2 = ConcreteGroup(cg1)
+    @testset "ConcreteGroup Ctor" begin
+        @test isnothing(cg0.superGroup)
+        @test !isnothing(cg1.superGroup)
+        @test !isnothing(cg2.superGroup)
+        @test cg0.baseGroup == cg1.baseGroup
+        @test cg0.baseGroup == cg2.baseGroup
+        @test cg0 == cg1.superGroup
+        @test cg1 == cg2.superGroup
+    end
 end

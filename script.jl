@@ -70,9 +70,11 @@ z8xz10 = Gp{2}(z8, z10)
 cg0 = ConcreteGroup(z5)
 cg1 = ConcreteGroup(cg0)
 @show cg0
+@show cg0.baseGroup
 @show cg0.superGroup
 @show GetHash(cg0)
 @show cg1
+@show cg1.baseGroup
 @show cg1.superGroup
 @show GetHash(cg1)
 @show Invert(cg0, z5(2))
