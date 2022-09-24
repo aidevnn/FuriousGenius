@@ -61,6 +61,10 @@ function GetString(e::Perm)::String
     end
 
     cycles = PermutationToCycles(e.baseGroup.N, e.p)
+    if length(cycles) == 0
+        return "[]"
+    end
+
     return "$(cycles)"
 end
 

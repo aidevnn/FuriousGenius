@@ -16,3 +16,8 @@ end
     Table = 1
     Cycles = 2
 end
+
+@enum SortElement begin
+    ByValue
+    ByOrder
+end

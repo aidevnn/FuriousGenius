@@ -18,7 +18,7 @@ function GetHash(g::Gp{N})::UInt where {N}
 end
 
 function GetString(g::Gp{N})::String where {N}
-    string(g.c)
+    join(g.c, " x ")
 end
 
 struct Ep{N} <: Elt

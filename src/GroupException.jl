@@ -11,6 +11,8 @@ mutable struct GroupException <: Exception
             return new("Element doesnt belong to the BaseGroup")
         elseif ex == GroupDefinitionEx
             return new("Group cant be creater")
+        elseif ex == SubGroupElementEx
+            return new("Element doens belong to the SuperGroup")
         end
     end
 end
