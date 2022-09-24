@@ -75,4 +75,7 @@ end
     @test length(S4.monogenics) == 13
     @test length(S5.monogenics) == 31
     @test length(S6.monogenics) == 246
+
+    A4 = CreateGroupByGenerators(S4, s4([1, 3], [2, 4]), s4([1, 2, 3]))
+    @test_throws GroupException CreateGroupByGenerators(A4, s4([1:4...]))
 end

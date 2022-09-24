@@ -18,7 +18,6 @@ DisplayDetails(K4, "K4")
 S3 = CreateGroupByGenerators(s3, s3([1, 2]), s3([1, 2, 3]))
 DisplayDetails(S3, "S3")
 
-
 zx = Gp{3}(z2, z2, z3)
 gx = CreateGroupByGenerators(zx, zx(1, 0, 0), zx(0, 1, 0), zx(0, 0, 1))
 DisplayDetails(gx)
