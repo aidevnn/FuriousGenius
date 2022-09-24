@@ -1,2 +1,2 @@
 # FuriousGenius
-Finite Groups study in Julia
+Small Groups study in Julia
