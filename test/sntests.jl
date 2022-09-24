@@ -15,6 +15,16 @@
         @test PermutationToCycles(5, [3, 2, 5, 4, 1]) == [[1, 3, 5]]
         @test PermutationToCycles(5, [3, 4, 1, 5, 2]) == [[1, 3], [2, 4, 5]]
     end
+
+    AllPerms(7)
+    @testset "All Perms" begin
+        @test length(AllPerms(2)) == 2
+        @test length(AllPerms(3)) == 6
+        @test length(AllPerms(4)) == 24
+        @test length(AllPerms(5)) == 120
+        @test length(AllPerms(6)) == 720
+        @test length(AllPerms(7)) == 5040
+    end
 end
 
 @testset "Sn Basics" begin
@@ -40,4 +50,23 @@ end
         @test BaseGroup(s3([1, 2])) == s3
         @test BaseGroup(e1) != s3
     end
+end
+
+@testset "Sn Generate" begin
+    s3 = Sn(3)
+    s4 = Sn(4)
+    s5 = Sn(5)
+    s6 = Sn(6)
+    S3 = CreateGroupByGenerators(s3, s3([1, 2]), s3([1, 2, 3]))
+    S4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1:4...]))
+    S5 = CreateGroupByGenerators(s5, s5([1, 2]), s5([1:5...]))
+    S6 = CreateGroupByGenerators(s6, s6([1, 2]), s6([1:6...]))
+    @test length(S3.elements) == 6
+    @test length(S4.elements) == 24
+    @test length(S5.elements) == 120
+    @test length(S6.elements) == 720
+    @test length(S3.monogenics) == 4
+    @test length(S4.monogenics) == 13
+    @test length(S5.monogenics) == 31
+    @test length(S6.monogenics) == 246
 end

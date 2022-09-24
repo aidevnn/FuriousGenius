@@ -25,11 +25,28 @@ z5xz10xz15 = Gp{3}(z5, z10, z15)
 #     @show e
 # end
 
-for n = 1:5
+for n = 1:4
     Sn = AllPerms(n)
     total = length(Sn)
     @show n total Sn
     println()
 end
+
+s3 = Sn(3)
+s4 = Sn(4)
+s5 = Sn(5)
+
+S3 = CreateGroupByGenerators(s3, s3([1, 2]), s3([1, 2, 3]))
+S4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3, 4]))
+S5 = CreateGroupByGenerators(s5, s5([1, 2]), s5([1, 2, 3, 4, 5]))
+
+for x = 3:6
+    sx = Sn(x)
+    Sx = CreateGroupByGenerators(sx, sx([1, 2]), sx([1:x...]))
+    monoGens = length(keys(Sx.monogenics))
+    total = length(Sx.elements)
+    @show sx, total, monoGens
+end
+
 
 println("bye.")
