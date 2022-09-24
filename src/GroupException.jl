@@ -1,6 +1,3 @@
-using Exceptions
-
-export GroupException
 
 # Error Handling
 mutable struct GroupException <: Exception

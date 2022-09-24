@@ -1,6 +1,4 @@
 
-export ZnInt, Zn, Neutral, Invert, Op, BaseGroup, GetHash, GetString
-
 struct Zn <: FGroup
     mod::Int
     gHash::UInt

@@ -1,6 +1,4 @@
 
-export ExceptionType, GroupType
-
 @enum ExceptionType begin
     GroupDefinitionEx
     BaseGroupEx

@@ -1,7 +1,3 @@
-using Random
-using UUIDs
-
-export Generate, Monogenic, Generators, ElementOrder, ConcreteGroup
 
 function Generate(g::FGroup, leftOp::Set{Elt}, rightOp::Set{Elt})::Set{Elt}
     if length(leftOp) == 0 || length(rightOp) == 0
@@ -105,7 +101,7 @@ function ElementOrder(gens::Dict{Elt,Dict{Elt,Int}})::Dict{Elt,Int}
             if !haskey(orders, e)
                 orders[e] = o
             elseif orders[e] != o
-                throw(GroupException("TO DO e=$(e) p=$(orders[e]) ? $o"))
+                throw(GroupException("TODO e=$(e) p=$(orders[e]) ? $o")) # TODO
             end
         end
     end
@@ -126,26 +122,29 @@ function IsAbelian(g::FGroup, elements::Vector{Elt})::Bool
     return true
 end
 
-struct ConcreteGroup <: FGroup
+mutable struct ConcreteGroup <: FGroup
     baseGroup::FGroup
     superGroup::Union{ConcreteGroup,Nothing}
     elements::Vector{Elt}
     groupType::GroupType
     monogenics::Dict{Elt,Dict{Elt,Int}}
+    orders::Dict{Elt,Int}
     cgHash::UInt
     function ConcreteGroup(bg::FGroup)
         bg0 = bg isa ConcreteGroup ? bg.baseGroup : bg
         cg0 = bg isa ConcreteGroup ? bg : nothing
         n = Neutral(bg0)
         elts = Vector{Elt}([n])
+        orders = Dict{Elt,Int}(n => 1)
         mg = Dict{Elt,Dict{Elt,Int}}(n => Dict{Elt,Int}(n => 1))
-        return new(bg0, cg0, elts, AbelianGroup, mg, hash(uuid1()))
+        return new(bg0, cg0, elts, AbelianGroup, mg, orders, hash(uuid1()))
     end
 end
 
 function GetHash(g::ConcreteGroup)::UInt
     g.cgHash
 end
+
 function GetString(g::ConcreteGroup)::String
     return "NoName" # TODO
 end
@@ -157,6 +156,7 @@ function Neutral(g::ConcreteGroup)::Elt
         return Neutral(g.superGroup)
     end
 end
+
 function Invert(g::ConcreteGroup, e::Elt)::Elt
     if isnothing(g.superGroup)
         return Invert(g.baseGroup, e)
@@ -164,6 +164,7 @@ function Invert(g::ConcreteGroup, e::Elt)::Elt
         return Invert(g.superGroup, e)
     end
 end
+
 function Op(g::ConcreteGroup, e1::Elt, e2::Elt)::Elt
     if isnothing(g.superGroup)
         return Op(g.baseGroup, e1, e2)

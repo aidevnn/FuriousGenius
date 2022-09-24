@@ -1,6 +1,4 @@
 
-export Gp, Ep, BaseGroup, IsLess, GetHash, GetString, Neutral, Invert, Op
-
 struct Gp{N} <: FGroup
     c::NTuple{N,FGroup}
     gpHash::UInt
