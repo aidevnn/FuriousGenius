@@ -65,6 +65,12 @@ end
     @test length(S4.elements) == 24
     @test length(S5.elements) == 120
     @test length(S6.elements) == 720
+
+    @test issetequal([e.p for e in S3.elements], AllPerms(3))
+    @test issetequal([e.p for e in S4.elements], AllPerms(4))
+    @test issetequal([e.p for e in S5.elements], AllPerms(5))
+    @test issetequal([e.p for e in S6.elements], AllPerms(6))
+
     @test length(S3.monogenics) == 4
     @test length(S4.monogenics) == 13
     @test length(S5.monogenics) == 31

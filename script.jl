@@ -46,6 +46,9 @@ for x = 3:6
     monoGens = length(keys(Sx.monogenics))
     total = length(Sx.elements)
     @show sx, total, monoGens
+    allPerms = AllPerms(x)
+    @show issetequal([e.p for e in Sx.elements], allPerms)
+
 end
 
 
