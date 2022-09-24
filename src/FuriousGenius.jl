@@ -3,7 +3,7 @@ module FuriousGenius
 using UUIDs
 using Exceptions
 
-export ExceptionType, GroupType
+export ExceptionType, GroupType, PermutationForm
 
 export GroupException
 
@@ -14,13 +14,13 @@ export Gp, Ep
 
 export ZnInt, Zn
 
-export CreateGroupElements, EltOrder
+export CreateGroupByGenerators, EltOrder
 
 export Generate, Monogenic, Generators, ElementOrder, IsAbelian, ConcreteGroup
 
-export CyclesToPermutation, PermutationToCycles
+export CyclesToPermutation, PermutationToCycles, AllPerms
 
-export Perm, Sn
+export Perm, Sn, ShowTable, ShowCycles, permForm
 
 include("Enumerations.jl")
 include("GroupException.jl")

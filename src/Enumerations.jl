@@ -11,3 +11,8 @@ end
     NonAbelianGroup
     AbelianGroup
 end
+
+@enum PermutationForm begin
+    Table = 1
+    Cycles = 2
+end

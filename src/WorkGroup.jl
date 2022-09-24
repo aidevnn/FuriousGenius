@@ -7,7 +7,7 @@ end
 
 Base.show(io::IO, eo::EltOrder) = print(io, "($(eo.i)) = $(eo.e)[$(eo.o)]")
 
-function CreateGroupElements(g::FGroup, vs::Vararg{Elt})
+function CreateGroupByGenerators(g::FGroup, vs::Vararg{Elt})
     vs0 = Set{Elt}([vs...])
     elements = Generate(g, vs0)
     gens = Generators(g, elements)

@@ -72,7 +72,7 @@ end
     end
 end
 
-@testset "Concrete Grp" begin
+@testset "Concrete Zn" begin
     z4xz4 = Gp{2}(Zn(4), Zn(4))
     arr0 = Set{Elt}([Neutral(z4xz4)])
     arr1 = Set{Elt}([z4xz4(2, 0), z4xz4(0, 1)])

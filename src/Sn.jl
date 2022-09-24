@@ -1,4 +1,16 @@
 
+permForm = PermutationForm(2)
+
+function ShowTable()
+    global permForm = PermutationForm(1)
+    return permForm
+end
+
+function ShowCycles()
+    global permForm = PermutationForm(1)
+    return permForm
+end
+
 struct Sn <: FGroup
     N::Int
     gHash::UInt
@@ -40,17 +52,14 @@ function IsLess(e1::Perm, e2::Perm)::Bool
         throw(GroupException())
     end
 
-    for p in zip(e1.p, e2.p)
-        if p[1] == p[2]
-            continue
-        else
-            return p[1] < p[2]
-        end
-    end
-    return false
+    return e1.p < e2.p
 end
 
 function GetString(e::Perm)::String
+    if permForm == PermutationForm(1)
+        return "$(e.p)"
+    end
+
     cycles = PermutationToCycles(e.baseGroup.N, e.p)
     return "$(cycles)"
 end
@@ -84,3 +93,4 @@ function (sn::Sn)(v::Vararg{Vector{Int}})::Perm
     p = CyclesToPermutation(sn.N, [v...])
     return Perm(sn, p)
 end
+
