@@ -8,11 +8,11 @@ mutable struct GroupException <: Exception
     end
     function GroupException(ex::ExceptionType)
         if ex == BaseGroupEx
-            return new("Element doesnt belong to the BaseGroup")
+            return new("Groups or Elements do not belong to the BaseGroup")
         elseif ex == GroupDefinitionEx
             return new("Group cant be creater")
-        elseif ex == SubGroupElementEx
-            return new("Element doens belong to the SuperGroup")
+        elseif ex == SuperGroupEx
+            return new("Groups or Elements do not belong to the SuperGroup")
         elseif ex == NotSubGroupEx
             return new("Second group is not a subgroup of first one")
         elseif ex == NotNormalEx

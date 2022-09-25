@@ -181,7 +181,7 @@ function CreateGroupByGenerators(g::FGroup, vs::Vararg{Elt})::CGroup
     vs0 = Set{Elt}([vs...])
     if g isa CGroup
         if any(e -> !(e in g.elements), vs0)
-            throw(GroupException(SubGroupElementEx))
+            throw(GroupException(SuperGroupEx))
         end
     end
 

@@ -2,7 +2,7 @@
 @enum ExceptionType begin
     GroupDefinitionEx
     BaseGroupEx
-    SubGroupElementEx
+    SuperGroupEx
     NotSubGroupEx
     NotNormalEx
 end

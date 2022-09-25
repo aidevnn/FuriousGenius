@@ -77,6 +77,7 @@ function SetElements(g::CGroup, elements::Vector{Elt})
         end
         push!(g.elements, e)
     end
+    nothing
 end
 
 function GetMonogenics(g::CGroup)::Dict{Elt,Dict{Elt,Int}}
@@ -93,6 +94,7 @@ function SetMonogenics(g::CGroup, monogenics::Dict{Elt,Dict{Elt,Int}})
         gr = Dict{Elt,Int}(p[2])
         push!(g.monogenics, e => gr)
     end
+    nothing
 end
 
 function GetOrders(g::CGroup)::Dict{Elt,Int}
@@ -107,6 +109,7 @@ function SetOrders(g::CGroup, orders::Dict{Elt,Int})
         end
         push!(g.orders, e)
     end
+    nothing
 end
 
 function GetGroupType(g::CGroup)::GroupType
@@ -115,4 +118,5 @@ end
 
 function SetGroupType(g::CGroup, groupType::GroupType)
     g.groupType = groupType
+    nothing
 end

@@ -40,4 +40,19 @@
         @test length(GetElements(Q1)) == 6
         @test length(GetElements(Q2)) == 3
     end
+
+    @testset "Direct Product" begin
+        s4 = Sn(4)
+        S4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3, 4]))
+        C2 = CreateGroupByGenerators(s4, s4([1, 2]))
+        C3 = CreateGroupByGenerators(s4, s4([1, 2, 3]))
+        @test_throws GroupException DirectProduct(C2, C3)
+
+        C2 = CreateGroupByGenerators(S4, s4([1, 2]))
+        C3 = CreateGroupByGenerators(S4, s4([1, 2, 3]))
+        DP = DirectProduct(C2, C3)
+        elements = GetElements(DP)
+        @test length(elements) == 6
+        @test issubset([Neutral(s4), s4([1, 2]), s4([2, 3]), s4([1, 3]), s4([1, 2, 3]), s4([1, 3, 2])], elements)
+    end
 end

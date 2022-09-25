@@ -7,7 +7,7 @@ function ShowTable()
 end
 
 function ShowCycles()
-    global permForm = PermutationForm(1)
+    global permForm = PermutationForm(2)
     return permForm
 end
 

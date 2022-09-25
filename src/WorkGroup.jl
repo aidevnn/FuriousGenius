@@ -19,6 +19,7 @@ function DisplayElements(g::CGroup, sortby::SortElement=ByOrder)
     end
 
     println()
+    nothing
 end
 
 function DisplayTable(g::CGroup, sortby::SortElement=ByOrder)
@@ -44,6 +45,7 @@ function DisplayTable(g::CGroup, sortby::SortElement=ByOrder)
     end
 
     println()
+    nothing
 end
 
 function DisplayHead(g::CGroup, name::String="G")
@@ -51,6 +53,7 @@ function DisplayHead(g::CGroup, name::String="G")
     println(g.groupType)
     println("BaseGroup : ", g.baseGroup)
     println()
+    nothing
 end
 
 function DisplayHeadElements(g::CGroup, name::String="G", sortby::SortElement=ByOrder)

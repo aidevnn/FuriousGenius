@@ -24,6 +24,8 @@ export CreateGroupByGenerators, DisplayElements, DisplayTable,
 
 export Cosets, DisplayCosets, Representants, QuotientGroup, CreateQuotientGroup
 
+export DirectProduct
+
 export ZnInt, Zn
 
 export Perm, Sn, ShowTable, ShowCycles
@@ -36,6 +38,7 @@ include("GroupTuples.jl")
 include("ConcreteGroup.jl")
 include("WorkGroup.jl")
 include("QuotientGroup.jl")
+include("DirectProduct.jl")
 include("Zn.jl")
 include("Sn.jl")
 

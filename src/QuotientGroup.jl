@@ -35,6 +35,7 @@ function DisplayCosets(cosets::Set{Set{Elt}})
         end
     end
     println()
+    nothing
 end
 
 function Representants(cosets::Set{Set{Elt}})::Dict{Elt,Elt}
