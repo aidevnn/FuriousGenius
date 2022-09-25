@@ -52,14 +52,23 @@ s4 = Sn(4)
 #     println(e[1], " => ", e[2])
 # end
 
-zx = Gp{2}(z3, z4)
-G = CreateGroupByGenerators(zx, zx(1, 0), zx(0, 1))
-H = CreateGroupByGenerators(G, zx(1, 0))
-K = CreateQuotientGroup(G, H)
+# zx = Gp{2}(z3, z4)
+# G = CreateGroupByGenerators(zx, zx(1, 0), zx(0, 1))
+# H = CreateGroupByGenerators(G, zx(1, 0))
+# K = CreateQuotientGroup(G, H)
 
-DisplayDetails(G)
-DisplayDetails(H)
-println("#################")
-DisplayDetails(K)
-DisplayCosets(K)
+# DisplayDetails(G)
+# DisplayDetails(H)
+# println("#################")
+# DisplayDetails(K)
+# DisplayCosets(K)
 
+s4 = Sn(4)
+S4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3, 4]))
+DisplayDetails(S4)
+
+K4 = CreateGroupByGenerators(s4, s4([1, 3], [2, 4]), s4([1, 2], [3, 4]))
+DisplayDetails(K4)
+
+Q = CreateQuotientGroup(S4, K4)
+DisplayDetails(Q)
