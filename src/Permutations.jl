@@ -6,16 +6,14 @@ function CyclesToPermutation(N::Int, cycles::Vector{Vector{Int}})::Vector{Int}
 
     p = [1:N...]
     for cycle in cycles
-        p0 = [1:N...]
         if all(i -> (1 <= i <= N), cycle) && length(cycle) == length(Set(cycle))
             n = length(cycle)
-            c1 = cycle[1]
+            c1 = p[cycle[1]]
             for i = 1:n-1
-                p0[cycle[i]] = p0[cycle[i+1]]
+                p[cycle[i]] = p[cycle[i+1]]
             end
-            p0[cycle[n]] = c1
+            p[cycle[n]] = c1
         end
-        permute!(p, p0)
     end
 
     return p
