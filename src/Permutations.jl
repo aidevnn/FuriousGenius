@@ -56,7 +56,8 @@ function AllPerms(N::Int)
     end
     arr = AllPerms(N - 1)
     set = Vector{Int}[]
-    pc = CyclesToPermutation(N, [[1:N...]])
+    pc = [2:N...]
+    push!(pc, 1)
     for p in arr
         p0 = [p...]
         push!(p0, N)
