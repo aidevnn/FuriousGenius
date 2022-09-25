@@ -13,6 +13,10 @@ mutable struct GroupException <: Exception
             return new("Group cant be creater")
         elseif ex == SubGroupElementEx
             return new("Element doens belong to the SuperGroup")
+        elseif ex == NotSubGroupEx
+            return new("Second group is not a subgroup of first one")
+        elseif ex == NotNormalEx
+            return new("Second group is not a normal subgroup of first one")
         end
     end
 end

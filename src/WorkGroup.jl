@@ -42,6 +42,7 @@ function CreateGroupByGenerators(g::FGroup, vs::Vararg{Elt})::ConcreteGroup
 end
 
 function DisplayElements(g::ConcreteGroup, sortby::SortElement=ByOrder)
+    println("Elements")
     n = length(g.elements)
     digitsOrders = maximum(e -> length("$(g.orders[e])"), g.elements)
     digitsName = maximum(e -> length("$e"), [1:n...])
@@ -63,6 +64,7 @@ function DisplayElements(g::ConcreteGroup, sortby::SortElement=ByOrder)
 end
 
 function DisplayTable(g::ConcreteGroup, sortby::SortElement=ByOrder)
+    println("Table")
     n = length(g.elements)
     digitsName = maximum(e -> length("$e"), [1:n...])
     fmt = " {1:$(digitsName)d}"

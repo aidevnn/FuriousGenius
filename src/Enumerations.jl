@@ -2,9 +2,9 @@
 @enum ExceptionType begin
     GroupDefinitionEx
     BaseGroupEx
-    SubGroupElementEx # TODO
-    NotSubGroupEx # TODO
-    NotNormalEx # TODO
+    SubGroupElementEx
+    NotSubGroupEx
+    NotNormalEx
 end
 
 @enum GroupType begin
