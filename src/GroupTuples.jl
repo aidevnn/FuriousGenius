@@ -75,6 +75,7 @@ function Op(g::Gp{N}, e1::Ep{N}, e2::Ep{N})::Ep{N} where {N}
     Ep{N}(Op.(g.c, e1.c, e2.c))
 end
 
-function (g::Gp{N})(v::Vararg{Int,N})::Ep{N} where {N}
-    Ep{N}(map.(g.c, v))
+function (g::Gp{N})(v::Vararg{Any,N})::Ep{N} where {N}
+    imap = Tuple(g.c[i](v[i]) for i = 1:N)
+    Ep{N}(imap)
 end

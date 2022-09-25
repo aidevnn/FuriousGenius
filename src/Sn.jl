@@ -1,6 +1,4 @@
 
-permForm = PermutationForm(2)
-
 function ShowTable()
     global permForm = PermutationForm(1)
     return permForm
@@ -10,6 +8,8 @@ function ShowCycles()
     global permForm = PermutationForm(2)
     return permForm
 end
+
+ShowCycles()
 
 struct Sn <: FGroup
     N::Int
@@ -98,3 +98,7 @@ function (sn::Sn)(v::Vararg{Vector{Int}})::Perm
     return Perm(sn, p)
 end
 
+function (sn::Sn)(v::Vector{Vector{Int}})::Perm
+    p = CyclesToPermutation(sn.N, v)
+    return Perm(sn, p)
+end

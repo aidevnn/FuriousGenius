@@ -41,6 +41,17 @@
         @test length(GetElements(Q2)) == 3
     end
 
+    @testset "Nothing is useless" begin
+        z2 = Zn(2)
+        s4 = Sn(4)
+        bg = Gp{3}(s4, z2, z2)
+        e0 = bg([[1, 2], [4, 3]], 1, 0)
+        e1 = bg([[1, 3], [2, 4]], 0, 1)
+        g = CreateGroupByGenerators(bg, e0, e1)
+        @test length(GetElements(g)) == 4
+        @test GetGroupType(g) == FuriousGenius.AbelianGroup
+    end
+
     @testset "Direct Product" begin
         s4 = Sn(4)
         S4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3, 4]))
