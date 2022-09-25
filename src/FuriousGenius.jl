@@ -10,17 +10,19 @@ export GroupException
 
 export CyclesToPermutation, PermutationToCycles, AllPerms
 
-export Elt, FGroup, Neutral, Invert, Op, BaseGroup,
+export Elt, FGroup, CGroup, Neutral, Invert, Op, BaseGroup,
     GetHash, GetString, Times, baseGroupEx, IsLess, allsame
+export GetElements, SetElements, GetMonogenics, SetMonogenics,
+    GetOrders, SetOrders, GetGroupType, SetGroupType
 
 export Gp, Ep
 
 export Generate, Monogenic, Generators, ElementOrder, IsAbelian, ConcreteGroup
 
-export CreateGroupByGenerators, EltOrder, DisplayElements, DisplayTable,
+export CreateGroupByGenerators, DisplayElements, DisplayTable,
     DisplayHead, DisplayHeadElements, DisplayHeadTable, DisplayDetails
 
-export Cosets, DisplayCosets, Representants
+export Cosets, DisplayCosets, Representants, QuotientGroup, CreateQuotientGroup
 
 export ZnInt, Zn
 

@@ -1,6 +1,7 @@
 
 # Abstract Types
 abstract type FGroup end
+abstract type CGroup <: FGroup end
 abstract type Elt end
 
 # Abstract Functions
@@ -61,4 +62,57 @@ function Times(g::FGroup, e::Elt, p::Int)::Elt
     end
 
     return acc
+end
+
+
+function GetElements(g::CGroup)::Vector{Elt}
+    g.elements
+end
+
+function SetElements(g::CGroup, elements::Vector{Elt})
+    empty!(g.elements)
+    for e in elements
+        if BaseGroup(e) != g.baseGroup
+            throw(GroupException(BaseGroupEx))
+        end
+        push!(g.elements, e)
+    end
+end
+
+function GetMonogenics(g::CGroup)::Dict{Elt,Dict{Elt,Int}}
+    g.monogenics
+end
+
+function SetMonogenics(g::CGroup, monogenics::Dict{Elt,Dict{Elt,Int}})
+    empty!(g.monogenics)
+    for p in monogenics
+        e = p[1]
+        if BaseGroup(e) != g.baseGroup
+            throw(GroupException(BaseGroupEx))
+        end
+        gr = Dict{Elt,Int}(p[2])
+        push!(g.monogenics, e => gr)
+    end
+end
+
+function GetOrders(g::CGroup)::Dict{Elt,Int}
+    g.orders
+end
+
+function SetOrders(g::CGroup, orders::Dict{Elt,Int})
+    empty!(g.orders)
+    for e in orders
+        if BaseGroup(e[1]) != g.baseGroup
+            throw(GroupException(BaseGroupEx))
+        end
+        push!(g.orders, e)
+    end
+end
+
+function GetGroupType(g::CGroup)::GroupType
+    g.groupType
+end
+
+function SetGroupType(g::CGroup, groupType::GroupType)
+    g.groupType = groupType
 end

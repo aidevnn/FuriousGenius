@@ -122,17 +122,17 @@ function IsAbelian(g::FGroup, elements::Vector{Elt})::Bool
     return true
 end
 
-mutable struct ConcreteGroup <: FGroup
+mutable struct ConcreteGroup <: CGroup
     baseGroup::FGroup
-    superGroup::Union{ConcreteGroup,Nothing}
+    superGroup::Union{CGroup,Nothing}
     elements::Vector{Elt}
     groupType::GroupType
     monogenics::Dict{Elt,Dict{Elt,Int}}
     orders::Dict{Elt,Int}
     cgHash::UInt
     function ConcreteGroup(bg::FGroup)
-        bg0 = bg isa ConcreteGroup ? bg.baseGroup : bg
-        cg0 = bg isa ConcreteGroup ? bg : nothing
+        bg0 = bg isa CGroup ? bg.baseGroup : bg
+        cg0 = bg isa CGroup ? bg : nothing
         n = Neutral(bg0)
         elts = Vector{Elt}([n])
         orders = Dict{Elt,Int}(n => 1)
@@ -175,4 +175,26 @@ end
 
 function (g::ConcreteGroup)(v::Vararg{Int,1})::Elt
     g.elements[v[1]]
+end
+
+function CreateGroupByGenerators(g::FGroup, vs::Vararg{Elt})::CGroup
+    vs0 = Set{Elt}([vs...])
+    if g isa CGroup
+        if any(e -> !(e in g.elements), vs0)
+            throw(GroupException(SubGroupElementEx))
+        end
+    end
+
+    elements = Generate(g, vs0)
+    monogenics = Generators(g, elements)
+    grouptype = IsAbelian(g, collect(keys(monogenics))) ? AbelianGroup : NonAbelianGroup
+    orders = ElementOrder(monogenics)
+
+    gr = ConcreteGroup(g)
+    SetElements(gr, Vector{Elt}([elements...]))
+    SetMonogenics(gr, monogenics)
+    SetOrders(gr, orders)
+    SetGroupType(gr, grouptype)
+
+    return gr
 end

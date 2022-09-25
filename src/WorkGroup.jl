@@ -1,47 +1,5 @@
 
-struct EltOrder
-    i::Int
-    e::Elt
-    o::Int
-end
-
-Base.show(io::IO, eo::EltOrder) = print(io, "($(eo.i)) = $(eo.e)[$(eo.o)]")
-
-function CreateGroupByGenerators(g::FGroup, vs::Vararg{Elt})::ConcreteGroup
-    vs0 = Set{Elt}([vs...])
-    if g isa ConcreteGroup
-        if any(e -> !(e in g.elements), vs0)
-            throw(GroupException(SubGroupElementEx))
-        end
-    end
-
-    elements = Generate(g, vs0)
-    gens = Generators(g, elements)
-    gt = IsAbelian(g, collect(keys(gens)))
-    orders = ElementOrder(gens)
-
-    gr = ConcreteGroup(g)
-    empty!(gr.elements)
-    for e in elements
-        push!(gr.elements, e)
-    end
-
-    empty!(gr.monogenics)
-    for p in gens
-        push!(gr.monogenics, p)
-    end
-
-    empty!(gr.orders)
-    for p in orders
-        push!(gr.orders, p)
-    end
-
-    gr.groupType = gt ? AbelianGroup : NonAbelianGroup
-
-    return gr
-end
-
-function DisplayElements(g::ConcreteGroup, sortby::SortElement=ByOrder)
+function DisplayElements(g::CGroup, sortby::SortElement=ByOrder)
     println("Elements")
     n = length(g.elements)
     digitsOrders = maximum(e -> length("$(g.orders[e])"), g.elements)
@@ -63,7 +21,7 @@ function DisplayElements(g::ConcreteGroup, sortby::SortElement=ByOrder)
     println()
 end
 
-function DisplayTable(g::ConcreteGroup, sortby::SortElement=ByOrder)
+function DisplayTable(g::CGroup, sortby::SortElement=ByOrder)
     println("Table")
     n = length(g.elements)
     digitsName = maximum(e -> length("$e"), [1:n...])
@@ -88,24 +46,24 @@ function DisplayTable(g::ConcreteGroup, sortby::SortElement=ByOrder)
     println()
 end
 
-function DisplayHead(g::ConcreteGroup, name::String="G")
+function DisplayHead(g::CGroup, name::String="G")
     println("|$name| = ", length(g.elements))
     println(g.groupType)
     println("BaseGroup : ", g.baseGroup)
     println()
 end
 
-function DisplayHeadElements(g::ConcreteGroup, name::String="G", sortby::SortElement=ByOrder)
+function DisplayHeadElements(g::CGroup, name::String="G", sortby::SortElement=ByOrder)
     DisplayHead(g, name)
     DisplayElements(g, sortby)
 end
 
-function DisplayHeadTable(g::ConcreteGroup, name::String="G", sortby::SortElement=ByOrder)
+function DisplayHeadTable(g::CGroup, name::String="G", sortby::SortElement=ByOrder)
     DisplayHead(g, name)
     DisplayTable(g, sortby)
 end
 
-function DisplayDetails(g::ConcreteGroup, name::String="G", sortby::SortElement=ByOrder)
+function DisplayDetails(g::CGroup, name::String="G", sortby::SortElement=ByOrder)
     DisplayHead(g, name)
     DisplayElements(g, sortby)
     DisplayTable(g, sortby)

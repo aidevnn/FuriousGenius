@@ -1,4 +1,4 @@
-
+using BenchmarkTools
 using FuriousGenius
 using FuriousGenius: ByValue, ByOrder
 
@@ -42,12 +42,24 @@ s4 = Sn(4)
 # DisplayCosets(Cosets(A4, K4))
 # @show Representants(Cosets(Z20, Z4))
 
-z40 = Zn(40)
-Z20 = CreateGroupByGenerators(z40, z40(2))
-Z4 = CreateGroupByGenerators(z40, z40(10))
-Z5 = CreateGroupByGenerators(z40, z40(8))
+# z40 = Zn(40)
+# Z20 = CreateGroupByGenerators(z40, z40(2))
+# Z4 = CreateGroupByGenerators(z40, z40(10))
+# Z5 = CreateGroupByGenerators(z40, z40(8))
 
-repr = Representants(Cosets(Z20, Z5))
+# repr = Representants(Cosets(Z20, Z5))
 # for e in sort([repr...], by=x -> (x[2], x[1]))
 #     println(e[1], " => ", e[2])
 # end
+
+zx = Gp{2}(z3, z4)
+G = CreateGroupByGenerators(zx, zx(1, 0), zx(0, 1))
+H = CreateGroupByGenerators(G, zx(1, 0))
+K = CreateQuotientGroup(G, H)
+
+DisplayDetails(G)
+DisplayDetails(H)
+println("#################")
+DisplayDetails(K)
+DisplayCosets(K)
+
