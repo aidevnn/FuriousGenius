@@ -19,11 +19,12 @@
 
     s4 = Sn(4)
     S4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3, 4]))
-    A4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3]))
-
+    A4 = CreateGroupByGenerators(s4, s4([1, 3], [2, 4]), s4([1, 2], [3, 4]), s4([1, 2, 3]))
+    C3 = CreateGroupByGenerators(s4, s4([1, 2, 3]))
     K4 = CreateGroupByGenerators(s4, s4([1, 3], [2, 4]), s4([1, 2], [3, 4]))
-    @test_throws GroupException CreateQuotientGroup(S4, K4)
+    @test_throws GroupException CreateQuotientGroup(S4, C3)
+    @test_throws GroupException CreateQuotientGroup(A4, C3)
 
-    Q = CreateQuotientGroup(A4, K4)
-    @test length(GetElements(Q)) == 3
+    Q2 = CreateQuotientGroup(A4, K4)
+    @test length(GetElements(Q2)) == 3
 end

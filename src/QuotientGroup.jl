@@ -3,10 +3,7 @@ function Cosets(g::CGroup, h::CGroup)::Set{Set{Elt}}
     if !(issubset(h.elements, g.elements))
         throw(GroupException(NotSubGroupEx))
     end
-    ShowCycles()
-    println(h.elements)
-    println()
-    println()
+
     cosets = Set{Set{Elt}}()
     for x in g.elements
         xi = Invert(g, x)
@@ -16,10 +13,6 @@ function Cosets(g::CGroup, h::CGroup)::Set{Set{Elt}}
             throw(GroupException(NotNormalEx))
         end
 
-        @show x
-        @show xHxi
-        @show xH
-        println()
         if all(s -> !issetequal(s, xH), cosets)
             push!(cosets, xH)
         end
