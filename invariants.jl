@@ -1,12 +1,4 @@
-using BenchmarkTools
 using FuriousGenius
-
-#############################################
-#                                           #
-#   Work script for crafting new functions  #
-#   or before adding new unit test          #
-#                                           #
-#############################################
 
 function InvariantAndQuoGroup(g::CGroup)::CGroup
     m = minimum(e -> (-e[2], e[1]), GetOrders(g))
@@ -17,6 +9,7 @@ function InvariantAndQuoGroup(g::CGroup)::CGroup
     println()
     h = CreateGroupByGenerators(g, maxOrderElt[1])
     q = CreateQuotientGroup(g, h)
+    return q
 end
 
 g = Gp{3}(Zn(8), Zn(18), Zn(30))
