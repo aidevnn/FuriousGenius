@@ -41,7 +41,7 @@ end
 function Representants(cosets::Set{Set{Elt}})::Dict{Elt,Elt}
     repr = Dict{Elt,Elt}()
     for s in cosets
-        r = minimum(s) # FIXME  To verify if the representants to be a subGroup
+        r = minimum(s) # FIXME  To make the set of representants a SubGroup
         for e in s
             push!(repr, e => r)
         end
