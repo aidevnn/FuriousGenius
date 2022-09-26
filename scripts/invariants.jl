@@ -1,6 +1,10 @@
 using FuriousGenius
 
 function InvariantAndQuoGroup(g::CGroup)::CGroup
+    if GetGroupType(g) != FuriousGenius.AbelianGroup
+        throw(GroupException(GroupDefinitionEx))
+    end
+
     m = minimum(e -> (-e[2], e[1]), GetOrders(g))
     maxOrderElt = (m[2], -m[1])
     NbElts = length(GetElements(g))
