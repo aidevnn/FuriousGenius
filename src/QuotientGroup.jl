@@ -41,7 +41,7 @@ end
 function Representants(cosets::Set{Set{Elt}})::Dict{Elt,Elt}
     repr = Dict{Elt,Elt}()
     for s in cosets
-        r = minimum(s)
+        r = minimum(s) # FIXME  To verify if the representants to be a subGroup
         for e in s
             push!(repr, e => r)
         end
@@ -83,7 +83,7 @@ function GetHash(g::QuotientGroup)::UInt
 end
 
 function GetString(g::QuotientGroup)::String
-    return "NoName" # TODO
+    return "NoName" # TODO 
 end
 
 function Neutral(g::QuotientGroup)::Elt
@@ -95,9 +95,17 @@ function Invert(g::QuotientGroup, e::Elt)::Elt
     return g.representants[e0]
 end
 
+# FIXME  
 function Op(g::QuotientGroup, e1::Elt, e2::Elt)::Elt
     e0 = Op(g.superGroup, e1, e2)
-    return g.representants[e0]
+    r = g.representants[e0]
+    if r != e0
+        @show e0, r # FIXME  
+        # coset representant is actually the minimum for lexical order but 
+        # nothing is done to check if the set of these representants
+        # is a subGroup
+    end
+    return r
 end
 
 function (g::QuotientGroup)(v::Vararg{Int,1})::Elt

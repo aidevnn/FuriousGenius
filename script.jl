@@ -9,14 +9,14 @@ using FuriousGenius
 #############################################
 
 ShowTable()
-z3 = Zn(3)
-z4 = Zn(4)
-z2 = Zn(2)
 s4 = Sn(4)
 
-bg = Gp{3}(s4, z2, z2)
-e0 = bg([[1, 2], [4, 3]], 1, 0)
-e1 = bg([[1, 3], [2, 4]], 0, 1)
-e2 = bg([[1, 2, 3]], 0, 0)
-g = CreateGroupByGenerators(bg, e0, e1, e2)
-DisplayDetails(g)
+S4 = CreateGroupByGenerators(s4, s4([1, 2, 3, 4]), s4([1, 2]))
+A4 = CreateGroupByGenerators(S4, s4([4, 2, 3]), s4([1, 3], [2, 4]))
+V = CreateGroupByGenerators(S4, s4([1, 2], [3, 4]), s4([1, 3], [2, 4]))
+DisplayHeadElements(A4, "A4")
+DisplayHeadElements(V, "V")
+
+Q = CreateQuotientGroup(S4, V)
+DisplayHeadElements(Q, "S4/V")
+DisplayCosets(Q)
