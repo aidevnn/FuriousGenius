@@ -1,6 +1,7 @@
 
 # Abstract Types
 abstract type FGroup end
+abstract type UserGroup <: FGroup end
 abstract type CGroup <: FGroup end
 abstract type Elt end
 
@@ -73,6 +74,8 @@ function SetElements(g::CGroup, elements::Vector{Elt})
     empty!(g.elements)
     for e in elements
         if BaseGroup(e) != g.baseGroup
+            @show BaseGroup(e)
+            @show g.baseGroup
             throw(GroupException(BaseGroupEx))
         end
         push!(g.elements, e)

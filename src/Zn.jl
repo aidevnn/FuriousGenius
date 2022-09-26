@@ -1,5 +1,5 @@
 
-struct Zn <: FGroup
+struct Zn <: UserGroup
     mod::Int
     gHash::UInt
     function Zn(mod::Int)

@@ -11,7 +11,7 @@ end
 
 ShowCycles()
 
-struct Sn <: FGroup
+struct Sn <: UserGroup
     N::Int
     gHash::UInt
     function Sn(N::Int)
