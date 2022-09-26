@@ -95,15 +95,14 @@ function Invert(g::QuotientGroup, e::Elt)::Elt
     return g.representants[e0]
 end
 
-# FIXME  
 function Op(g::QuotientGroup, e1::Elt, e2::Elt)::Elt
     e0 = Op(g.superGroup, e1, e2)
     r = g.representants[e0]
-    if r != e0
-        @show e0, r # FIXME  
+    if r != e0 && r != Neutral(g)
+        println("FIXME ", e1, " * ", e2, " = ", e0, " != ", r, " in ", BaseGroup(e0)) # FIXME  
         # coset representant is actually the minimum for lexical order but 
         # nothing is done to check if the set of these representants
-        # is a subGroup
+        # is stable and the mapping is only for the normal subgroup to the neutral.
     end
     return r
 end

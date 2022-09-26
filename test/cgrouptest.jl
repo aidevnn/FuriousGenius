@@ -52,7 +52,7 @@
         @test GetGroupType(g) == FuriousGenius.AbelianGroup
     end
 
-    @testset "Direct Product" begin
+    @testset "Internal Direct Product" begin
         s4 = Sn(4)
         S4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3, 4]))
         C2 = CreateGroupByGenerators(s4, s4([1, 2]))
@@ -65,5 +65,26 @@
         elements = GetElements(DP)
         @test length(elements) == 6
         @test issubset([Neutral(s4), s4([1, 2]), s4([2, 3]), s4([1, 3]), s4([1, 2, 3]), s4([1, 3, 2])], elements)
+    end
+
+    @testset "External Direct Product" begin
+        z2 = Zn(2)
+        g = Gp{2}(z2, z2)
+        H = CreateGroupByGenerators(z2, z2(1))
+        K = CreateGroupByGenerators(g, g(0, 1), g(1, 0))
+        @test_throws GroupException DirectProduct(Gp{2}(H, z2))
+        @test_throws GroupException DirectProduct(Gp{2}(H, K))
+
+        G1 = DirectProduct(Gp{2}(H, H))
+        @test length(GetElements(H)) == 2
+        @test length(GetElements(G1)) == 4
+
+        z40 = Zn(40)
+        Z20 = CreateGroupByGenerators(z40, z40(2))
+        Z4 = CreateGroupByGenerators(z40, z40(10))
+        Q = CreateQuotientGroup(Z20, Z4)
+        G2 = DirectProduct(Gp{2}(H, Q))
+        @test length(GetElements(Q)) == 5
+        @test length(GetElements(G2)) == 10
     end
 end
