@@ -1,6 +1,6 @@
 
 function DirectProduct(H::CGroup, K::CGroup)::CGroup
-    if isnothing(H.superGroup) || H.superGroup != K.superGroup
+    if H isa QuotientGroup || K isa QuotientGroup || isnothing(H.superGroup) || H.superGroup != K.superGroup
         throw(GroupException(SuperGroupEx))
     end
 
