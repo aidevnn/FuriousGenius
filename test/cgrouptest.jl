@@ -90,4 +90,26 @@
         @test length(GetElements(Q)) == 5
         @test length(GetElements(G2)) == 10
     end
+
+    @testset "Semi-direct Product" begin
+        s4 = Sn(4)
+        S3 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3]))
+        @test length(GetElements(S3)) == 6
+        D8 = CreateGroupByGenerators(s4, s4([1, 2], [3, 4]), s4([1, 2, 3, 4]))
+        @test length(GetElements(D8)) == 8
+
+        z2 = Zn(2)
+        z3 = Zn(3)
+        z4 = Zn(4)
+        Z2 = CreateGroupByGenerators(z2, z2(1))
+        Z3 = CreateGroupByGenerators(z3, z3(1))
+        Z4 = CreateGroupByGenerators(z4, z4(1))
+        Z3sdpZ2 = CreateSemiDirectProduct(Z3, Z2)
+        @test length(GetElements(Z3sdpZ2)) == 6
+        Z4sdpZ2 = CreateSemiDirectProduct(Z4, Z2)
+        @test length(GetElements(Z4sdpZ2)) == 8
+
+        @test AreIsomorphic(S3, Z3sdpZ2)
+        @test AreIsomorphic(D8, Z4sdpZ2)
+    end
 end

@@ -17,7 +17,7 @@ export GetElements, SetElements, GetMonogenics, SetMonogenics,
 
 export Gp, Ep
 
-export Generate, Monogenic, Generators, ElementOrder, IsAbelian, ConcreteGroup
+export Generate, Monogenic, Generators, ElementOrder, IsAbelian, ConcreteGroup, AreIsomorphic
 
 export CreateGroupByGenerators, DisplayElements, DisplayTable,
     DisplayHead, DisplayHeadElements, DisplayHeadTable, DisplayDetails

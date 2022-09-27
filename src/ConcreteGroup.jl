@@ -239,3 +239,9 @@ function CayleyTable(g::CGroup)::Bool
 
     return true
 end
+
+function AreIsomorphic(g1::CGroup, g2::CGroup)::Bool
+    orders1 = sort(collect(values(GetOrders(g1))))
+    orders2 = sort(collect(values(GetOrders(g2))))
+    return all(isequal.(orders1, orders2))
+end
