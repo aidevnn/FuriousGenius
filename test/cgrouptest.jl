@@ -51,7 +51,9 @@
         @test length(GetElements(g)) == 4
         @test GetGroupType(g) == FuriousGenius.AbelianGroup
     end
+end
 
+@testset "Products" begin
     @testset "Internal Direct Product" begin
         s4 = Sn(4)
         S4 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3, 4]))
@@ -94,9 +96,7 @@
     @testset "Semi-direct Product" begin
         s4 = Sn(4)
         S3 = CreateGroupByGenerators(s4, s4([1, 2]), s4([1, 2, 3]))
-        @test length(GetElements(S3)) == 6
         D8 = CreateGroupByGenerators(s4, s4([1, 2], [3, 4]), s4([1, 2, 3, 4]))
-        @test length(GetElements(D8)) == 8
 
         z2 = Zn(2)
         z3 = Zn(3)
@@ -105,9 +105,7 @@
         Z3 = CreateGroupByGenerators(z3, z3(1))
         Z4 = CreateGroupByGenerators(z4, z4(1))
         Z3sdpZ2 = CreateSemiDirectProduct(Z3, Z2)
-        @test length(GetElements(Z3sdpZ2)) == 6
         Z4sdpZ2 = CreateSemiDirectProduct(Z4, Z2)
-        @test length(GetElements(Z4sdpZ2)) == 8
 
         @test AreIsomorphic(S3, Z3sdpZ2)
         @test AreIsomorphic(D8, Z4sdpZ2)
@@ -123,6 +121,5 @@
         @test length(G3.elements) == 21
         @test !AreIsomorphic(G1, G2)
         @test AreIsomorphic(G1, G3)
-
     end
 end
