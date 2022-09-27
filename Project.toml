@@ -1,10 +1,9 @@
 name = "FuriousGenius"
 uuid = "ebf584b5-9662-48ec-8748-0820853ea9fa"
 authors = ["@aidevnn"]
-version = "0.0.1"
+version = "0.0.3"
 
 [deps]
-BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 Exceptions = "25a0344a-2aab-46d0-b534-6f1410d4c65f"
 Formatting = "59287772-0a20-5a39-b81b-1366585eb4c0"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
