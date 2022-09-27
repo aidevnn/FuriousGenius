@@ -111,5 +111,18 @@
 
         @test AreIsomorphic(S3, Z3sdpZ2)
         @test AreIsomorphic(D8, Z4sdpZ2)
+
+        G1 = CreateGroupByGenerators(Sn(7), Sn(7)([1:7...]), Sn(7)([2, 3, 5], [4, 7, 6]))
+        C3 = CreateGroupByGenerators(Zn(3), ZnInt(1, 3))
+        C7 = CreateGroupByGenerators(Zn(7), ZnInt(1, 7))
+        G2 = DirectProduct(Gp{2}(C3, C7))
+        G3 = CreateSemiDirectProduct(C7, C3)
+
+        @test length(G1.elements) == 21
+        @test length(G2.elements) == 21
+        @test length(G3.elements) == 21
+        @test !AreIsomorphic(G1, G2)
+        @test AreIsomorphic(G1, G3)
+
     end
 end
