@@ -55,7 +55,7 @@ mutable struct QuotientGroup <: CGroup
     normSubGroup::CGroup
     cosets::Set{Set{Elt}}
     representants::Dict{Elt,Elt}
-    elements::Vector{Elt}
+    elements::Set{Elt}
     groupType::GroupType
     monogenics::Dict{Elt,Dict{Elt,Int}}
     orders::Dict{Elt,Int}
@@ -71,7 +71,7 @@ mutable struct QuotientGroup <: CGroup
         cst = Cosets(G, H)
         rep = Representants(cst)
         n = Neutral(bgr)
-        elts = Vector{Elt}([n])
+        elts = Set{Elt}([n])
         mg = Dict{Elt,Dict{Elt,Int}}(n => Dict{Elt,Int}(n => 1))
         orders = Dict{Elt,Int}(n => 1)
         return new(bgr, sgr, ngr, cst, rep, elts, NonAbelianGroup, mg, orders, hash(uuid1()))
@@ -118,7 +118,7 @@ function CreateQuotientGroup(G::CGroup, H::CGroup)::CGroup
     grouptype = IsAbelian(quo, collect(keys(monogenics))) ? AbelianGroup : NonAbelianGroup
     orders = ElementOrder(monogenics)
 
-    SetElements(quo, Vector{Elt}([elements...]))
+    SetElements(quo, elements)
     SetMonogenics(quo, monogenics)
     SetOrders(quo, orders)
     SetGroupType(quo, grouptype)

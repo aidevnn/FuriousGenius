@@ -7,9 +7,9 @@ function DisplayElements(g::CGroup, sortby::SortElement=ByOrder)
     fmt = "({1:$(digitsName)d})[{2:$(digitsOrders)d}] = {3}"
     set = Vector{Elt}()
     if sortby == ByOrder
-        set = sort(g.elements, by=e -> (g.orders[e], e))
+        set = sort([g.elements...], by=e -> (g.orders[e], e))
     else
-        set = sort(g.elements)
+        set = sort([g.elements...])
     end
 
     for i = 1:n
@@ -29,9 +29,9 @@ function DisplayTable(g::CGroup, sortby::SortElement=ByOrder)
     fmt = " {1:$(digitsName)d}"
     set = Vector{Elt}()
     if sortby == ByOrder
-        set = sort(g.elements, by=e -> (g.orders[e], e))
+        set = sort([g.elements...], by=e -> (g.orders[e], e))
     else
-        set = sort(g.elements)
+        set = sort([g.elements...])
     end
     dicEltInt = Dict{Elt,Int}([set[i] => i for i = 1:n])
     dicIntElt = Dict{Int,Elt}([i => set[i] for i = 1:n])

@@ -26,6 +26,8 @@ export Cosets, DisplayCosets, Representants, QuotientGroup, CreateQuotientGroup
 
 export DirectProduct
 
+export Solve, PowMod, NxG, Eng, CreateSemiDirectProduct, DisplayActions
+
 export ZnInt, Zn
 
 export Perm, Sn, ShowTable, ShowCycles
@@ -39,6 +41,7 @@ include("ConcreteGroup.jl")
 include("WorkGroup.jl")
 include("QuotientGroup.jl")
 include("DirectProduct.jl")
+include("SemiDirectProduct.jl")
 include("Zn.jl")
 include("Sn.jl")
 

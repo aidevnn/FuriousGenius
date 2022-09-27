@@ -71,12 +71,15 @@
         z2 = Zn(2)
         g = Gp{2}(z2, z2)
         H = CreateGroupByGenerators(z2, z2(1))
-        K = CreateGroupByGenerators(g, g(0, 1), g(1, 0))
+        @test length(GetElements(H)) == 2
         @test_throws GroupException DirectProduct(Gp{2}(H, z2))
-        @test_throws GroupException DirectProduct(Gp{2}(H, K))
+
+        K = CreateGroupByGenerators(g, g(0, 1), g(1, 0))
+        G0 = DirectProduct(Gp{2}(H, K))
+        @test length(GetElements(K)) == 4
+        @test length(GetElements(G0)) == 8
 
         G1 = DirectProduct(Gp{2}(H, H))
-        @test length(GetElements(H)) == 2
         @test length(GetElements(G1)) == 4
 
         z40 = Zn(40)

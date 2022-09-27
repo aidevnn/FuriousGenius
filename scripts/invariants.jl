@@ -1,5 +1,12 @@
 using FuriousGenius
 
+#############################################
+#                                           #
+#       Abelians Groups Invariants          #
+#         factors decompositions            #
+#                                           #
+#############################################
+
 function InvariantAndQuoGroup(g::CGroup)::CGroup
     if GetGroupType(g) != FuriousGenius.AbelianGroup
         throw(GroupException(GroupDefinitionEx))

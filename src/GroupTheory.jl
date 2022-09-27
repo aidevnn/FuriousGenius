@@ -65,12 +65,15 @@ function Times(g::FGroup, e::Elt, p::Int)::Elt
     return acc
 end
 
+function ContainsElement(g::CGroup, e::Elt)::Bool
+    return (e in g.elements)
+end
 
-function GetElements(g::CGroup)::Vector{Elt}
+function GetElements(g::CGroup)::Set{Elt}
     g.elements
 end
 
-function SetElements(g::CGroup, elements::Vector{Elt})
+function SetElements(g::CGroup, elements::Set{Elt})
     empty!(g.elements)
     for e in elements
         if BaseGroup(e) != g.baseGroup

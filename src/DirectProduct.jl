@@ -11,7 +11,7 @@ function DirectProduct(H::CGroup, K::CGroup)::CGroup
 end
 
 function DirectProduct(gp::Gp{N})::CGroup where {N}
-    if any(g -> !(g isa CGroup) || !(g.baseGroup isa UserGroup), gp.c)
+    if any(g -> !(g isa CGroup), gp.c)
         throw(GroupException(GroupDefinitionEx))
     end
 
@@ -35,7 +35,7 @@ function DirectProduct(gp::Gp{N})::CGroup where {N}
     gr = ConcreteGroup(bgr)
     gr.superGroup = ConcreteGroup(gp)
 
-    SetElements(gr, Vector{Elt}([elements...]))
+    SetElements(gr, elements)
     SetMonogenics(gr, monogenics)
     SetOrders(gr, orders)
     SetGroupType(gr, grouptype)

@@ -17,6 +17,10 @@ mutable struct GroupException <: Exception
             return new("Second group is not a subgroup of first one")
         elseif ex == NotNormalEx
             return new("Second group is not a normal subgroup of first one")
+        elseif ex == CyclicsGroupEx
+            return new("Groups are not cyclics")
+        elseif ex == SemiDirectProdEx
+            return new("Semi-direct product does not exits")
         end
     end
 end

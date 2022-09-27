@@ -125,7 +125,7 @@ end
 mutable struct ConcreteGroup <: CGroup
     baseGroup::FGroup
     superGroup::Union{CGroup,Nothing}
-    elements::Vector{Elt}
+    elements::Set{Elt}
     groupType::GroupType
     monogenics::Dict{Elt,Dict{Elt,Int}}
     orders::Dict{Elt,Int}
@@ -134,7 +134,7 @@ mutable struct ConcreteGroup <: CGroup
         bg0 = bg isa CGroup ? bg.baseGroup : bg
         cg0 = bg isa CGroup ? bg : nothing
         n = Neutral(bg0)
-        elts = Vector{Elt}([n])
+        elts = Set{Elt}([n])
         orders = Dict{Elt,Int}(n => 1)
         mg = Dict{Elt,Dict{Elt,Int}}(n => Dict{Elt,Int}(n => 1))
         return new(bg0, cg0, elts, AbelianGroup, mg, orders, hash(uuid1()))
@@ -173,8 +173,27 @@ function Op(g::ConcreteGroup, e1::Elt, e2::Elt)::Elt
     end
 end
 
+function Times(g::ConcreteGroup, e::Elt, p::Int)::Elt
+    if p == 0
+        return Neutral(g)
+    end
+
+    e0 = e
+    p0 = p
+    if p < 0
+        e0 = Invert(g, e)
+        p0 = -p
+    end
+    acc = Neutral(g)
+    for i = 1:p0
+        acc = Op(g, acc, e0)
+    end
+
+    return acc
+end
+
 function (g::ConcreteGroup)(v::Vararg{Int,1})::Elt
-    g.elements[v[1]]
+    error("Not implemented")
 end
 
 function CreateGroupByGenerators(g::FGroup, vs::Vararg{Elt})::CGroup
@@ -191,10 +210,32 @@ function CreateGroupByGenerators(g::FGroup, vs::Vararg{Elt})::CGroup
     orders = ElementOrder(monogenics)
 
     gr = ConcreteGroup(g)
-    SetElements(gr, Vector{Elt}([elements...]))
+    SetElements(gr, elements)
     SetMonogenics(gr, monogenics)
     SetOrders(gr, orders)
     SetGroupType(gr, grouptype)
 
     return gr
+end
+
+function CayleyTable(g::CGroup)::Bool
+    set = sort([g.elements...], by=x -> (g.orders[x], x))
+    n = length(set)
+    e2i = Dict{Elt,Int}(e[i] => i for i = 1:n)
+    i2e = Dict{Int,Elt}(i => e[i] for i = 1:n)
+    for i = 1:n
+        ei = set[i]
+        row = Vector{Int}()
+        col = Vector{Int}()
+        for j = 1:n
+            ej = set[j]
+            push!(row, Op(g, ei, ej))
+            push!(col, Op(g, ej, ei))
+        end
+        if !issetequal(set, row) || !issetequal(set, col)
+            return false
+        end
+    end
+
+    return true
 end

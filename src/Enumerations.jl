@@ -5,6 +5,8 @@
     SuperGroupEx
     NotSubGroupEx
     NotNormalEx
+    CyclicsGroupEx
+    SemiDirectProdEx
 end
 
 @enum GroupType begin
