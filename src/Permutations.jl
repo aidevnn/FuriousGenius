@@ -63,7 +63,7 @@ function AllPerms(N::Int)
         push!(p0, N)
         p1 = [p0...]
         for i = 1:N
-            permute!(p1, pc)
+            p1 = p1[pc]
             push!(set, [p1...])
         end
     end

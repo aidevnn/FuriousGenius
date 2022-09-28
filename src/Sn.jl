@@ -88,9 +88,8 @@ function Op(g::Sn, e1::Perm, e2::Perm)::Perm
     if g != e1.baseGroup || g != e2.baseGroup
         throw(GroupException())
     end
-    p = [e1.p...]
-    permute!(p, e2.p)
-    return Perm(g, p)
+
+    return Perm(g, e1.p[e2.p])
 end
 
 function (sn::Sn)(v::Vararg{Vector{Int}})::Perm
