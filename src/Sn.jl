@@ -11,14 +11,16 @@ end
 
 ShowCycles()
 
-struct Sn <: UserGroup
+struct Sn <: FGroup
     N::Int
+    neutral::Vector{Int}
     gHash::UInt
     function Sn(N::Int)
         if N < 2
             throw(GroupException(GroupDefinitionEx))
         end
-        return new(N, hash(N))
+        ne = [1:N...]
+        return new(N, ne, hash(N))
     end
 end
 
@@ -73,7 +75,7 @@ function BaseGroup(e::Perm)::Sn
 end
 
 function Neutral(g::Sn)::Perm
-    return Perm(g, [1:g.N...])
+    return Perm(g, g.neutral)
 end
 
 function Invert(g::Sn, e::Perm)::Perm

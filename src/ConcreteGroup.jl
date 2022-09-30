@@ -131,7 +131,7 @@ mutable struct ConcreteGroup <: CGroup
     orders::Dict{Elt,Int}
     cgHash::UInt
     function ConcreteGroup(bg::FGroup)
-        bg0 = bg isa CGroup ? bg.baseGroup : bg
+        bg0 = BaseGroup(Neutral(bg))
         cg0 = bg isa CGroup ? bg : nothing
         n = Neutral(bg0)
         elts = Set{Elt}([n])
