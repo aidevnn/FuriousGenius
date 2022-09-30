@@ -10,7 +10,7 @@ export GroupException
 
 export CyclesToPermutation, PermutationToCycles, AllPerms
 
-export Elt, FGroup, UserGroup, CGroup, Neutral, Invert, Op, BaseGroup,
+export Elt, FGroup, CGroup, Neutral, Invert, Op, BaseGroup,
     GetHash, GetString, Times, baseGroupEx, IsLess, allsame
 export GetElements, SetElements, GetMonogenics, SetMonogenics,
     GetOrders, SetOrders, GetGroupType, SetGroupType
